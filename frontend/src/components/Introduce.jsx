@@ -84,16 +84,16 @@ const Introduce = () => {
     return (
         <>
             <section id="introduce">
-                <div class="intro_inner">
-                    <h1 class="intro_title">전공책을 더욱 저렴하게, 더욱 편리하게</h1>
-                    <h4 class="sub_title">
+                <div className="intro_inner">
+                    <h1 className="intro_title">전공책을 더욱 저렴하게, 더욱 편리하게</h1>
+                    <h4 className="sub_title">
                         모두의 전공책은 학교 전공책을 중고 거래할 수 있는 플랫폼으로,{" "}
                         <br></br>학생들 간에 쉽고 효율적으로 전공책을 구매하고 판매할 수
                         있는 환경을 제공합니다.
                     </h4>
                 </div>
-                <div class="login">
-                    <h2 class="start">모두의 전공책</h2>
+                <div className="login">
+                    <h2 id ="login_logo" className="start">모두의 전공책</h2>
                     <form onSubmit={handleSubmit}>
                         <input
                             type="text"

@@ -1,12 +1,19 @@
-import React from 'react'
-import UserDashboardHeader from "../components/UserDashboardHeader";
+import React from 'react';
+import UserDashboardHeader from '../components/UserDashboardHeader';
+import ProductRecommendation from '../components/ProductRecommendation';
+import Sidebar from '../components/Sidebar';
+import '../css/book_trading_mainpage.css';
 
 const BookTradingMainPage = () => {
-  return (
-    <>
-      <UserDashboardHeader />
-    </>
-  )
+    return (
+        <div className="main-page">
+            <UserDashboardHeader />
+            <div className="content">
+                <Sidebar />
+                <ProductRecommendation />
+            </div>
+        </div>
+    );
 }
 
-export default BookTradingMainPage
+export default BookTradingMainPage;

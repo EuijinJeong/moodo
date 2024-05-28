@@ -1,3 +1,4 @@
+/* 소개 및 로그인 섹션 스타일 */
 #introduce {
   display: flex;
   justify-content: space-between;
@@ -5,22 +6,19 @@
   padding: 50px;
   width: 100%; /* 부모 요소에 맞추기 위해 너비 100% 설정 */
   box-sizing: border-box; /* padding을 포함하여 너비 계산 */
+  min-width: 320px; /* 최소 너비 설정 */
   height: 100vh; /* 화면 전체 높이로 설정 */
 }
 
 .intro_inner {
-  flex: 1; /* 좌우 여백 없이 내용이 화면에 가득 차도록 설정 */
-}
-
-.introduce_content {
   display: flex;
-  flex-direction: column; /* 내부 요소들을 수직으로 배치 */
-  align-items: center; /* 가운데 정렬 */
-}
-
-.intro_texts {
-  margin-bottom: 30px; /* 텍스트와 폼 사이의 간격 조절 */
-  text-align: center; /* 텍스트 가운데 정렬 */
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start; /* 좌측 정렬 */
+  width: 50%; /* 화면의 절반을 차지 */
+  padding: 20px;
+  box-sizing: border-box;
+  min-width: 320px; /* 최소 너비 설정 */
 }
 
 .intro_title {
@@ -36,11 +34,21 @@
 }
 
 .login {
-  width: 400px; /* 로그인 폼의 너비를 400px로 조정 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 세로 중앙 정렬 */
+  align-items: center;
+  width: 40%; /* 로그인 영역의 너비를 줄임 */
   background-color: rgba(255, 255, 255, 0.5); /* 반투명한 흰색 배경 */
   padding: 20px; /* 내부 여백 추가 */
   border-radius: 10px; /* 모서리 둥글게 */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
+  box-sizing: border-box; /* padding을 포함하여 너비 계산 */
+  min-width: 320px; /* 최소 너비 설정 */
+}
+
+.login #login_logo {
+  text-align: left; /* 좌측 정렬 */
 }
 
 .start {
@@ -54,7 +62,7 @@
 
 .sign_in,
 .sign_up {
-  width: calc(100% - 20px); /* 부모 너비에 맞게 조절하고 내부 여백 고려 */
+  width: 100%; /* 부모 너비에 맞추기 위해 100% 설정 */
   padding: 10px;
   margin: 5px 0;
   border: 1px solid #ccc;
@@ -68,10 +76,9 @@
 }
 
 input[type="text"],
-input[type="password"]{
-  width: calc(100% - 20px); /* 부모 너비에 맞게 조절하고 내부 여백 고려 */
+input[type="password"] {
+  width: 100%; /* 부모 너비에 맞추기 위해 100% 설정 */
   padding: 10px;
-  padding-left: 20px;
   margin: 5px 0;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -93,37 +100,15 @@ a:hover {
 }
 
 /* 미디어 쿼리 */
-@media screen and (min-width: 768px) {
+@media screen and (max-width: 768px) {
   #introduce {
-    padding: 50px;
+    flex-direction: column;
+    height: auto;
   }
 
+  .intro_inner,
   .login {
-    width: 400px;
+    width: 100%;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  }
-
-  .intro_title {
-    font-size: 2rem;
-    margin-left: auto;
-  }
-
-  .sub_title {
-    font-size: 1.2rem;
-    margin-top: 10px;
-    margin-left: auto;
-  }
-
-  .start {
-    font-size: 2rem;
-  }
-
-  .sign_in,
-  .sign_up {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin: 5px 0;
   }
 }

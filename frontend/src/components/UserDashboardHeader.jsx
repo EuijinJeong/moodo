@@ -1,25 +1,19 @@
-import React from "react";
+import React from 'react';
+import '../css/user_dashboard_header.css'; // Include CSS for styling
 
 const UserDashboardHeader = () => {
-  const HandleToggle = () => {
-    // 토글 동작을 수행하는 함수
-  };
-
   return (
-    <header>
-      <div className="toggle-icon" onClick={HandleToggle}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          width="24"
-          height="24"
-        >
-          <path d="M0 0h24v24H0z" fill="none" />
-          <path d="M4 18h16c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1s.45 1 1 1zm0-5h16c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1s.45 1 1 1zm0-5h16c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1s.45 1 1 1z" />
-        </svg>
-      </div>
-    </header>
+      <header className="dashboard-header">
+        <div className="logo">모두의 전공책</div>
+        <input type="text" className="search-bar" placeholder="전공책 이름, 출판사명 입력" />
+        <nav className="nav-links">
+          <a href="/sell">판매하기</a>
+          <a href="/profile">내상점</a>
+          <a href="/messages">모두톡</a>
+        </nav>
+      </header>
   );
-};
+}
 
 export default UserDashboardHeader;
+

@@ -32,7 +32,6 @@ const PasswordReset = () => {
     return (
       <div>
         <h2>Password Reset Successful!</h2>
-        {/* 비밀번호 재설정이 성공적으로 완료되었다는 메시지를 여기에 추가하세요. */}
       </div>
     );
   }
@@ -44,7 +43,7 @@ const PasswordReset = () => {
           <div className="form_inner">
             <form onSubmit={handleEmailSubmit}>
               <h2>비밀번호 재설정</h2>
-              <label htmlFor="email">Email:</label>
+              <label id="email-label" htmlFor="email">Email:</label>
               <input
                 type="email"
                 id="email"
@@ -60,26 +59,32 @@ const PasswordReset = () => {
           </div>
         </section>
       ) : (
-        <form onSubmit={handleResetSubmit}>
-          <h2>Reset Your Password</h2>
-          <label htmlFor="newPassword">New Password:</label>
-          <input
-            type="password"
-            id="newPassword"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            required
-          />
-          <label htmlFor="confirmPassword">Confirm Password:</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-          <button type="submit">Reset Password</button>
-        </form>
+          <section id="reset_password" >
+            <div className="form_inner">
+              <form onSubmit={handleResetSubmit}>
+                <h2>Reset Your Password</h2>
+                <label htmlFor="newPassword">New Password:</label>
+                <input
+                    type="password"
+                    id="newPassword"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    required
+                />
+                <label htmlFor="confirmPassword">Confirm Password:</label>
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                />
+                <button type="submit">Reset Password</button>
+              </form>
+            </div>
+
+          </section>
+
       )}
     </div>
   );

@@ -1,7 +1,12 @@
 import React, {useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import "../css/ProductRegistration.css"
+import axios from "axios";
 
 const ProductRegistration = () => {
+
+    const navigate = useNavigate();
+
     const [images, setImages] = useState([]);
     const [title, setTitle] = useState('');
     const [condition, setCondition] = useState('');
@@ -11,11 +16,8 @@ const ProductRegistration = () => {
 
     const handleImageChange = (e) => {
         if (e.target.files.length > 0) {
-            const newImages = Array.from(e.target.files).map(file => ({
-                file,
-                url: URL.createObjectURL(file)
-            }));
-            setImages([...images, ...newImages]);
+            const newFiles = Array.from(e.target.files);
+            setImages([...images, ...newFiles]);
         }
     };
 
@@ -38,17 +40,60 @@ const ProductRegistration = () => {
     const handleAcceptOffersChange = (e) => {
         setAcceptOffers(e.target.checked);
     };
-    const handleSubmit = (e) => {
+
+    const isValidInput = (title, condition, price, acceptOffers) => {
+        // 각 필수 입력란이 비어있는지 확인
+        if(!title || !condition || !price || !acceptOffers){
+            alert("모든 필수값들을 입력해주세요.")
+            return false;
+        }
+    }
+
+    const handleSubmit = async (e) => {
       e.preventDefault();
-      // 등록하기 로직 아래에 작성
-        console.log({
-            title,
-            condition,
-            description,
-            price,
-            acceptOffers,
-            images
+
+        if(!(isValidInput(title, condition, price, acceptOffers))){
+            // 유효하지 않은 로직 처리
+            alert("필수 입력란이 비어있습니다 확인해주세요.")
+        }
+
+        const product = {
+            title: title,
+            condition: condition,
+            description: description,
+            price: parseFloat(price), // 가격을 숫자로 변환
+            acceptOffers: acceptOffers
+        };
+
+        const formData = new FormData();
+        formData.append('product', new Blob([JSON.stringify(product)], { type: 'application/json' }));
+
+        images.forEach((image, index) => {
+            formData.append('files', image);
         });
+
+        // 로컬스토리지에 있는 사용자 인증 토큰 가져오기
+        const token = localStorage.getItem('token');
+        console.log('Sending token:', token);
+
+        try{
+            // 서버로 데이터 전송
+            const response = await axios.post("http://localhost:8080/api/productRegistration" , formData,{
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if(response.status === 200){
+                console.log('상품 등록 성공:', response.data);
+                alert("상품등록을 완료하였습니다.")
+                navigate('/BookTradingMainPage')
+            }
+        } catch (e) {
+            alert("상품 등록 과정에서 서버문제로 오류가 발생하였습니다.")
+            console.error('상품 등록 오류:', e);
+        }
     };
 
     return (
@@ -102,7 +147,6 @@ const ProductRegistration = () => {
                     </label>
                 </div>
                 <div className="form-actions">
-                    <button type="button" onClick={() => console.log('임시저장')}>임시저장</button>
                     <button type="submit">등록하기</button>
                 </div>
             </form>

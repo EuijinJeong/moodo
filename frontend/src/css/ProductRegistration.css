@@ -131,11 +131,9 @@ form {
 }
 
 .form-actions button[type="submit"] {
+    width: 50%;
+    margin-left: 200px;
     background-color: #007bff;
     color: #fff;
 }
 
-.form-actions button[type="button"] {
-    background-color: #ddd;
-    color: #333;
-}

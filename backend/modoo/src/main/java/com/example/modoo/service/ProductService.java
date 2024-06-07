@@ -33,9 +33,10 @@ public class ProductService {
         List<String> fileUrls = fileService.saveFiles(files);
         product.setFileUrls(fileUrls);
 
-        // Find member by email and set to product
+        // 데이터베이스의 users 테이블에서 현재 로그인한 사용자의 email이 있는지 조회 없으면 예외처리
         Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Member 엔티티에서 해당하는 email을 찾을 수 없습니다: " + email)); // 여기서 오류 발생
+                .orElseThrow(() -> new RuntimeException("Member 엔티티에서 해당하는 email을 찾을 수 없습니다: " + email));
+        // 현재 로그인한 사용자의 email이 데이터베이스에 존재한다면 product테이블에 users테이블과 product테이블과 조인을 위해 email 정보 추가
         product.setMember(member);
 
         Product savedProduct = productRepository.save(product);

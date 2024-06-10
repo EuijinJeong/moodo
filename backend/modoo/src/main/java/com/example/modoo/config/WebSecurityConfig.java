@@ -22,6 +22,7 @@ public class WebSecurityConfig {
 
     private final TokenProvider tokenProvider;
     private final CustomAccessDeniedHandler accessDeniedHandler;
+    private final CustomLoginSuccessHandler loginSuccessHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -38,6 +39,11 @@ public class WebSecurityConfig {
                         .accessDeniedHandler(accessDeniedHandler)
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 )
+                // 아래 코드에서 오류 발생, 주석처리 했더니 401 오류 없어지면서 정상 작동함. 나중에 디버깅 필요
+//                .formLogin(form -> form
+//                        .loginPage("/signIn")
+//                        .successHandler(loginSuccessHandler) // 로그인 성공 핸들러 추가
+//                )
                 .addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

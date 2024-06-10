@@ -52,17 +52,18 @@ const ProductRegistration = () => {
     const handleSubmit = async (e) => {
       e.preventDefault();
 
-        if(!(isValidInput(title, condition, price, acceptOffers))){
-            // 유효하지 않은 로직 처리
-            alert("필수 입력란이 비어있습니다 확인해주세요.")
-        }
+      // 아래 유효성검사 수정 필요
+        // if(!(isValidInput(title, condition, price, acceptOffers))){
+        //     // 유효하지 않은 로직 처리
+        //     alert("필수 입력란이 비어있습니다 확인해주세요.")
+        // }
 
         const product = {
             title: title,
             condition: condition,
             description: description,
             price: parseFloat(price), // 가격을 숫자로 변환
-            acceptOffers: acceptOffers
+            acceptOffers: acceptOffers,
         };
 
         const formData = new FormData();

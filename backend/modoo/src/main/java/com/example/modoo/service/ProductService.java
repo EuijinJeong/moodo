@@ -3,8 +3,10 @@ package com.example.modoo.service;
 import com.example.modoo.dto.ProductDto;
 import com.example.modoo.entity.Member;
 import com.example.modoo.entity.Product;
+import com.example.modoo.entity.Store;
 import com.example.modoo.repository.MemberRepository;
 import com.example.modoo.repository.ProductRepository;
+import com.example.modoo.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,27 +22,41 @@ public class ProductService {
     private MemberRepository memberRepository;
 
     @Autowired
+    private StoreRepository storeRepository;
+
+    @Autowired
+    private UserEmailLookupService userEmailLookupService;
+
+    @Autowired
     private FileService fileService;
-    public Product saveProduct(ProductDto productDto, List<MultipartFile> files, String email) {
+    public Product saveProduct(ProductDto productDto, List<MultipartFile> files) {
+
+        // 현재 인증된 사용자의 이메일 가져오기
+        String userEmail = userEmailLookupService.getCurrentUserEmail();
+
+        // userEmail을 이용해 Member를 조회
+        Member member = memberRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("Member 엔티티에서 해당하는 email을 찾을 수 없습니다: " + userEmail));
+
+        // Member를 이용해 Store를 조회
+        Store store = storeRepository.findByMemberId(member.getId())
+                .orElseThrow(() -> new RuntimeException("Store 엔티티에서 해당하는 member를 찾을 수 없습니다: " + member.getId()));
+
         Product product = new Product();
         product.setTitle(productDto.getTitle());
         product.setCondition(productDto.getCondition());
         product.setDescription(productDto.getDescription());
         product.setPrice(productDto.getPrice());
         product.setAcceptOffers(productDto.getAcceptOffers());
+        product.setStore(store);
 
-        // 이 부분 로직 다시 검토해야함
+        // 파일 저장 로직: 이 부분 로직 다시 검토해야함
         List<String> fileUrls = fileService.saveFiles(files);
         product.setFileUrls(fileUrls);
 
-        // 데이터베이스의 users 테이블에서 현재 로그인한 사용자의 email이 있는지 조회 없으면 예외처리
-        Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Member 엔티티에서 해당하는 email을 찾을 수 없습니다: " + email));
-        // 현재 로그인한 사용자의 email이 데이터베이스에 존재한다면 product테이블에 users테이블과 product테이블과 조인을 위해 email 정보 추가
-        product.setMember(member);
-
         Product savedProduct = productRepository.save(product);
         fileService.saveFiles(files);
+
         return  savedProduct;
     }
 }

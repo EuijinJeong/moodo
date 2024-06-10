@@ -11,7 +11,4 @@ public class ProductDto {
     private String description;
     private Double price;
     private Boolean acceptOffers;
-
-    // 사용자 식별을 위한 변수
-    private String email;
 }

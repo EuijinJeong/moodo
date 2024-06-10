@@ -37,8 +37,8 @@ public class Product {
     @ElementCollection // 별도의 테이블에 파일 url 저장
     private List<String> fileUrls;
 
-    @ManyToOne // 이 부분 수정해야할 수도 OneToMany일 수도 있음
-    @JoinColumn(name = "member_email", referencedColumnName = "email")
-    private Member member;
+    @ManyToOne
+    @JoinColumn(name = "store_id", nullable = false)
+    private Store store;
 
 }

@@ -1,6 +1,8 @@
 package com.example.modoo.controller;
 
 import com.example.modoo.entity.Product;
+import com.example.modoo.entity.Store;
+import com.example.modoo.repository.StoreRepository;
 import com.example.modoo.service.ProductService;
 import com.example.modoo.dto.ProductDto;
 import com.example.modoo.service.UserEmailLookupService;
@@ -21,17 +23,12 @@ public class ProductRegisterController {
 
     @Autowired
     private ProductService productService;
-    private final UserEmailLookupService userEmailLookupService;
 
     @PostMapping("/productRegistration") // api 엔드포인트 지정
     public ResponseEntity<Product> saveProduct(@RequestPart("product") ProductDto productDto,
                                                  @RequestPart("files") List<MultipartFile> files) {
 
-        String email = userEmailLookupService.getCurrentUserEmail();
-        System.out.println("사용자 이메일 주소: " + email);
-
-        // 상픔 저장
-        Product savedProduct = productService.saveProduct(productDto, files, email);
+        Product savedProduct = productService.saveProduct(productDto, files); // saveProduct 메소드 호출 결과를 변수에 할당
         return ResponseEntity.ok(savedProduct);
     }
 

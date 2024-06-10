@@ -13,6 +13,9 @@ public class StoreService {
     @Autowired
     private StoreRepository storeRepository;
 
+    @Autowired
+    private UserEmailLookupService userEmailLookupService;
+
     @Transactional
     public Store createStore(Member member) {
 
@@ -25,11 +28,18 @@ public class StoreService {
         store.setEmail(member.getEmail());
         store.setName(member.getStudentId()); // 상점 이름 초기값으로 학번 설정
         store.setNote("상점 소개글을 입력해 주세요.");
-        store.setMember(member); // 여기서 문제가 발생하는
+        store.setMember(member);
 
         // Member 엔티티에도 Store 설정
         member.setStore(store);
 
         return storeRepository.save(store);
+    }
+
+    @Transactional(readOnly = true)
+    public Store getStoreForCurrentUser() {
+        String email = userEmailLookupService.getCurrentUserEmail();
+        return storeRepository.findByEmail(email) // 값이 존재한다면 store 객체 반환
+                .orElseThrow(() -> new RuntimeException("상점 정보를 찾을 수 없습니다."));
     }
 }

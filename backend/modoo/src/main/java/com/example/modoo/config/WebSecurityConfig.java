@@ -4,11 +4,13 @@ package com.example.modoo.config;
 import com.example.modoo.jwt.JwtFilter;
 import com.example.modoo.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -33,6 +35,8 @@ public class WebSecurityConfig {
                         .requestMatchers("/SignUpPage").permitAll()
                         .requestMatchers("/api/signup").permitAll()
                         .requestMatchers("/api/signIn").permitAll()
+                        .requestMatchers("/api/user/**").permitAll()
+                        .requestMatchers("static/images/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(e -> e
@@ -52,5 +56,16 @@ public class WebSecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        // 정적 리소스 spring security 대상에서 제외
+        return (web) ->
+                web
+                        .ignoring()
+                        .requestMatchers(
+                                PathRequest.toStaticResources().atCommonLocations()
+                        );
     }
 }

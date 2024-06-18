@@ -1,16 +1,16 @@
 import React from 'react';
 import UserDashboardHeader from "../components/UserDashboardHeader";
-import UserShopInfo from "../components/UserShopInfo";
+import MyStoreInfo from "../components/MyStoreInfo";
 import MyShopTap from "../components/MyShopTap";
 
-const MyShopPage = () => {
+const MyStorePage = () => {
     return (
         <div>
             <UserDashboardHeader />
-            <UserShopInfo />
+            <MyStoreInfo />
             <MyShopTap />
         </div>
     );
 };
 
-export default MyShopPage;
+export default MyStorePage;

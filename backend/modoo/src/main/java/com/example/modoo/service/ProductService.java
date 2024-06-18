@@ -1,6 +1,7 @@
 package com.example.modoo.service;
 
 import com.example.modoo.dto.ProductDto;
+import com.example.modoo.dto.StoreDto;
 import com.example.modoo.entity.Member;
 import com.example.modoo.entity.Product;
 import com.example.modoo.entity.Store;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -42,6 +44,7 @@ public class ProductService {
         Store store = storeRepository.findByMemberId(member.getId())
                 .orElseThrow(() -> new RuntimeException("Store 엔티티에서 해당하는 member를 찾을 수 없습니다: " + member.getId()));
 
+        // DTO에서 엔티티로 변환
         Product product = new Product();
         product.setTitle(productDto.getTitle());
         product.setCondition(productDto.getCondition());
@@ -58,5 +61,39 @@ public class ProductService {
         fileService.saveFiles(files);
 
         return  savedProduct;
+    }
+
+    public ProductDto getProductById(Long productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+        return convertToDto(product);
+    }
+
+    public List<ProductDto> getProductsByStoreId(Long storeId) {
+        List<Product> products = productRepository.findByStoreId(storeId);
+        return products.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
+    // Product 엔티티를 ProductDto로 변환하는 메서드
+    public ProductDto convertToDto(Product product) {
+        ProductDto productDto = new ProductDto();
+        productDto.setId(product.getId());
+        productDto.setTitle(product.getTitle());
+        productDto.setCondition(product.getCondition());
+        productDto.setDescription(product.getDescription());
+        productDto.setPrice(product.getPrice());
+        productDto.setAcceptOffers(product.isAcceptOffers());
+        productDto.setFileUrls(product.getFileUrls()); // fileUrls 필드 설정
+
+        if (product.getStore() != null) {
+            StoreDto storeDto = new StoreDto();
+            storeDto.setId(product.getStore().getId());
+            storeDto.setName(product.getStore().getName());
+            storeDto.setEmail(product.getStore().getEmail());
+            storeDto.setNote(product.getStore().getNote());
+            productDto.setStore(storeDto);
+        }
+
+        return productDto;
     }
 }

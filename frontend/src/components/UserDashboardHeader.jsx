@@ -18,7 +18,7 @@ const UserDashboardHeader = () => {
               <nav className={`header_nav ${show ? "show" : ""}`} role="navigation">
                   <ul>
                       <li><Link to="/ProductRegistrationPage">판매하기</Link></li>
-                      <li><a href="/">내상점</a></li>
+                      <li><a href="/MyStorePage">내상점</a></li>
                       <li><a href="/">모두톡</a></li>
                   </ul>
               </nav>

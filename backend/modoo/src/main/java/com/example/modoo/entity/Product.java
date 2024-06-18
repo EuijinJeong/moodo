@@ -1,5 +1,6 @@
 package com.example.modoo.entity;
 
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,6 +34,8 @@ public class Product {
     @Column ( name = "accept_offers")
     private boolean acceptOffers;
 
+    @Column(name = "liked_count", nullable = false)
+    private long liked_count = 0;
 
     @ElementCollection // 별도의 테이블에 파일 url 저장
     private List<String> fileUrls;

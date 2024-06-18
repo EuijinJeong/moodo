@@ -19,7 +19,7 @@ const MyShopTap = () => {
                 });
                 const store = response.data;
                 setStoreId(store.id);
-                console.log("상점 아이디를 잘 반환하는지 확인하는 코드 " + store.id);
+                console.log("상점 아이디를 잘 반환하는지 확인하는 코드 " + store.id); // 잘 반환함
             } catch (error) {
                 console.error("Error fetching store:", error);
             }
@@ -37,13 +37,16 @@ const MyShopTap = () => {
                             Authorization: `Bearer ${localStorage.getItem('token')}` // JWT 토큰을 헤더에 포함
                         }
                     });
-                    setProducts(response.data);
-                    console.log("제품 목록을 잘 반환하는지 확인하는 코드", response.data);
+                    if (Array.isArray(response.data)) {
+                        setProducts(response.data);
+                    } else {
+                        console.error("Expected an array but got:", response.data);
+                    }
+                    console.log("제품 목록을 잘 반환하는지 확인하는 코드", response.data); // 제품 목록 한개만 반환되어서 문제 발생
                 } catch (error) {
                     console.error("Error fetching products:", error);
                 }
             };
-
             fetchProducts();
         }
     }, [storeId]);

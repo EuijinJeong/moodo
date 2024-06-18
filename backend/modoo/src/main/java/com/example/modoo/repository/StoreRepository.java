@@ -1,7 +1,6 @@
 package com.example.modoo.repository;
 
 import com.example.modoo.entity.Store;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

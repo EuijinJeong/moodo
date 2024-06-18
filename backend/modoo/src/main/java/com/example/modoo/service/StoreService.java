@@ -1,11 +1,15 @@
 package com.example.modoo.service;
 
+import com.example.modoo.dto.MemberResponseDto;
+import com.example.modoo.dto.StoreDto;
 import com.example.modoo.entity.Member;
 import com.example.modoo.entity.Store;
 import com.example.modoo.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.stream.Collectors;
 
 @Service
 public class StoreService {
@@ -15,6 +19,9 @@ public class StoreService {
 
     @Autowired
     private UserEmailLookupService userEmailLookupService;
+
+    @Autowired
+    private ProductService productService;
 
     @Transactional
     public Store createStore(Member member) {
@@ -36,10 +43,35 @@ public class StoreService {
         return storeRepository.save(store);
     }
 
+    // 수정해야함
     @Transactional(readOnly = true)
-    public Store getStoreForCurrentUser() {
+    public StoreDto getStoreForCurrentUser() {
         String email = userEmailLookupService.getCurrentUserEmail();
-        return storeRepository.findByEmail(email) // 값이 존재한다면 store 객체 반환
-                .orElseThrow(() -> new RuntimeException("상점 정보를 찾을 수 없습니다."));
+        System.out.println("Current user email: " + email);
+
+        Store store = storeRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Store not found"));
+        System.out.println("Store retrieved: " + store);
+
+        return convertToDto(store);
+    }
+
+    public StoreDto getStoreInfoById(Long storeId) {
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new RuntimeException("Store not found"));
+        return convertToDto(store);
+    }
+
+    private StoreDto convertToDto(Store store) {
+        StoreDto storeDto = new StoreDto();
+        storeDto.setId(store.getId());
+        storeDto.setName(store.getName());
+        storeDto.setEmail(store.getEmail());
+        storeDto.setNote(store.getNote());
+        storeDto.setMember(MemberResponseDto.of(store.getMember()));
+        storeDto.setProducts(store.getProducts().stream()
+                .map(productService::convertToDto)
+                .collect(Collectors.toList()));
+        return storeDto;
     }
 }

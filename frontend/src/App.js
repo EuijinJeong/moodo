@@ -3,8 +3,10 @@ import MainPage from './pages/MainPage';
 import SignUpPage from "./pages/SignUpPage";
 import FindPassword from "./pages/FindPassword";
 import BookTradingMainPage from "./pages/BookTradingMainPage";
-import ProductRegistration from "./components/ProductRegistration";
 import ProductRegistrationPage from "./pages/ProductRegistrationPage";
+import MyStorePage from "./pages/MyStorePage";
+import ProductDetailPage from "./pages/ProductDetailPage";
+import UserStorePage from "./pages/UserStorePage";
 
 function App() {
   return (
@@ -15,6 +17,9 @@ function App() {
             <Route path="/FindPassword" element={<FindPassword />} />
             <Route path="/BookTradingMainPage" element={<BookTradingMainPage />} />
             <Route path="/ProductRegistrationPage" element={<ProductRegistrationPage />} />
+            <Route path="/MyStorePage" element={<MyStorePage />} />
+            <Route path="/product/:productId" element={<ProductDetailPage />} />
+            <Route path="/store/:storeId" element={<UserStorePage />} />
         </Routes>
     </Router>
   );

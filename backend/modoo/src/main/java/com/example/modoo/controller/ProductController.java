@@ -1,11 +1,14 @@
 package com.example.modoo.controller;
 
+import com.example.modoo.dto.ProductDto;
 import com.example.modoo.entity.Product;
 import com.example.modoo.repository.ProductRepository;
+import com.example.modoo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -26,12 +29,26 @@ public class ProductController {
     @Autowired
     private ProductRepository productRepository;
 
-    @GetMapping("product/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long id){
-        Optional<Product> product = productRepository.findById(id);
-        if(product.isPresent()){
-            return ResponseEntity.ok(product.get());
+    @Autowired
+    private ProductService productService;
+
+
+    // 상점 ID로 제품 목록을 가져오는 엔드포인트 추가 (여기에서 문제 발생)
+    @GetMapping("products/store/{storeId}")
+    public ResponseEntity<List<ProductDto>> getProductsByStoreId(@PathVariable Long storeId){
+        List<ProductDto> products = productService.getProductsByStoreId(storeId);
+        return ResponseEntity.ok(products);
+    }
+
+    // 제품 ID로 제품 정보를 가져오는 엔드포인트
+    @GetMapping("products-detail/{productId}")
+    public ResponseEntity<ProductDto> getProductById(@PathVariable Long productId) {
+        System.out.println("Fetching product with ID: " + productId);
+        ProductDto productDto = productService.getProductById(productId);
+        if (productDto != null) {
+            return ResponseEntity.ok(productDto);
         } else {
+            System.out.println("Product with ID " + productId + " not found");
             return ResponseEntity.notFound().build();
         }
     }

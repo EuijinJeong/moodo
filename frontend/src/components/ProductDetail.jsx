@@ -36,7 +36,7 @@ const ProductDetail = ({ productId }) => {
                     });
 
                     setStoreInfo(storeResponse.data);
-                    console.log(storeResponse.data); 
+                    console.log(storeResponse.data);
                 } else {
                     console.error('Store ID is not defined in the product data');
                 }
@@ -65,12 +65,17 @@ const ProductDetail = ({ productId }) => {
                 }
             });
 
-            // 여기 아래에 찜을 누르는 제품이 사용자의 제품인지 유효성 검사 로직 추가 해야함
-            // 만약 본인제품이 아니라면 ok 아니면 오류 메세지 출력
-
             setProduct(response.data);
         } catch (e) {
-            console.error("Error liking product:", e);
+            // 에러 로그 출력
+            console.error("Error liking product:", e.response ? e.response.data : e.message);
+
+            // 사용자에게 에러 메시지를 표시
+            if (e.response && e.response.data && e.response.data.message) {
+                alert(`Error: ${e.response.data.message}`);
+            } else {
+                alert('An unknown error occurred.');
+            }
         }
     };
 

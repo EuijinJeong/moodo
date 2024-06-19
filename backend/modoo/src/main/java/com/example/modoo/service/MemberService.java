@@ -8,6 +8,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+
 
 // 애플리케이션의 비즈니스 로직을 담당하고 있음.
 // 서비스 계층은 주로 컨트롤러와 리포지토리 사이의 중간 역할을 하며, 요청을 처리하는 로직을 포함
@@ -19,6 +22,7 @@ public class MemberService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
 
     @Transactional
     public void saveMember(SignUpRequest signUpRequest) {

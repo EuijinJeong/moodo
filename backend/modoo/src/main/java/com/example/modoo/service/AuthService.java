@@ -42,6 +42,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final StoreService storeService;
 
     // 회원가입
     @Transactional
@@ -50,7 +51,12 @@ public class AuthService {
             throw new RuntimeException("이미 가입되어 있는 유저입니다");
         }
         Member member = memberRequestDto.toMember(passwordEncoder);
-        return MemberResponseDto.of(memberRepository.save(member));
+        memberRepository.save(member);
+
+        // 회원가입시 상점 정보를 생성하는 로직 아래에 작성해야함.
+        storeService.createStore(member);
+
+        return MemberResponseDto.of(member);
     }
 
     // 로그인

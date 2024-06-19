@@ -66,14 +66,19 @@ const Introduce = () => {
                 password
             });
 
-            if (response.status === 200 && response.data) {
-                navigate('/BookTradingMainPage');  // 거래 메인 페이지로 이동
+            console.log('서버 응답:', response.data);
+
+            if (response.status === 200 && response.data.accessToken) {
+                const token = response.data.accessToken; // 서버에서 받은 JWT 토큰
+                localStorage.setItem('token', token); // 로컬 스토리지에 토큰 저장
+                console.log('토큰 저장 완료:', token);
+                navigate('/BookTradingMainPage', {replace: true});  // 거래 메인 페이지로 이동
             } else {
                 console.error("서버 응답 오류:", response.status);
                 alert("서버 응답 오류가 발생했습니다. 다시 시도해주세요.");
             }
         } catch (error) {
-            console.error("로그인 요청 중 오류 발생:", error); // 여기에서 401 오류 발생
+            console.error("로그인 요청 중 오류 발생:", error);
             alert("로그인 요청 중 오류가 발생했습니다. 다시 시도해주세요.");
         }
         // 폼 초기화

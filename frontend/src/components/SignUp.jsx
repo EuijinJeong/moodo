@@ -85,8 +85,8 @@ const SignUp = () => {
     };
 
     // 회원가입 폼 제출 이벤트 핸들러
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         // 여기에 회원가입 처리 로직을 작성합니다.
         // 유효성 검사
         const isValid = isValidInput(email, password, confirmPassword, fullName);

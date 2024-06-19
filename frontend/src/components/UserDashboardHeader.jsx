@@ -1,16 +1,65 @@
-import React from 'react';
-import '../css/user_dashboard_header.css'; // Include CSS for styling
+import React, {useState} from 'react';
+import '../css/user_dashboard_header.css';
+import {Link, useNavigate} from "react-router-dom";
+import axios from "axios"; // Include CSS for styling
+
 
 const UserDashboardHeader = () => {
+    const [show, setShow] = useState(false);
+    const navigate = useNavigate();
+    const toggleMenu = () => {
+        setShow((prevShow) => !prevShow);
+    };
+
+    const handleLogout = async () => {
+       try {
+           // 서버로 로그아웃 요청 보내기
+           const response = await axios.post('/api/logout', {}, {
+               headers: {
+                   Authorization: `Bearer ${localStorage.getItem('token')}` // JWT 토큰을 헤더에 포함
+               }
+           });
+
+           // 로그아웃 요청에 대한 응답 확인
+           if (response.status === 200) {
+               console.log("로그아웃 요청이 성공적으로 처리되었습니다.");
+               // jwt 토큰 삭제
+               localStorage.removeItem('token');
+               // 초기 페이지로 리디렉션하면서 히스토리 스택을 덮어쓰기
+               navigate('/', { replace: true });
+               console.log("jwt 토큰이 정상적으로 삭제되었습니다.");
+           }
+       } catch (error) {
+           console.error('Logout failed:', error);
+       }
+    };
+
   return (
-      <header className="dashboard-header">
-        <div className="logo">모두의 전공책</div>
-        <input type="text" className="search-bar" placeholder="전공책 이름, 출판사명 입력" />
-        <nav className="nav-links">
-          <a href="/sell">판매하기</a>
-          <a href="/profile">내상점</a>
-          <a href="/messages">모두톡</a>
-        </nav>
+      <header id="header" role="banner">
+          <div className="header_inner">
+              <div className="header_logo">
+                  <a href="/BookTradingMainPage">모두의 전공책</a></div>
+              <input type="text" className="search-bar" placeholder="전공책 이름, 출판사명 입력" />
+              <nav className={`header_nav ${show ? "show" : ""}`} role="navigation">
+                  <ul>
+                      <li><Link to="/ProductRegistrationPage">판매하기</Link></li>
+                      <li><a href="/MyStorePage">내상점</a></li>
+                      <li><a href="/">모두톡</a></li>
+                      <li><button onClick={handleLogout} className="logout-button">로그아웃</button></li>
+                  </ul>
+              </nav>
+              <div
+                  className="header_nav_mobile"
+                  id="headerToggle"
+                  aria-controls="primary-menu"
+                  aria-expanded={show ? "true" : "false"}
+                  role="button"
+                  tabindex="0"
+                  onClick={toggleMenu}
+              >
+                  <span></span>
+              </div>
+          </div>
       </header>
   );
 }

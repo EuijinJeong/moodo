@@ -10,9 +10,11 @@ import lombok.Getter;
 @AllArgsConstructor
 public class MemberResponseDto {
     private String email;
+    private Long id;
 
     public static MemberResponseDto of(Member member) {
         return MemberResponseDto.builder()
+                .id(member.getId())
                 .email(member.getEmail())
                 .build();
     }

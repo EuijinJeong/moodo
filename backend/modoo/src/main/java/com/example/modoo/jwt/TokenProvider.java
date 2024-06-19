@@ -25,6 +25,10 @@ import java.util.stream.Collectors;
 /**
  * JWT(JSON Web Token)를 생성하고 검증하는 기능을 제공하는 JwtGenerator 클래스를 정의합니다.
  * 이 클래스는 Spring Security와 함께 사용되어 사용자 인증 및 권한 부여를 처리합니다.
+ *
+ * 메소드 종류
+ * generateToken: Member 정보를 가지고 AccessToken, RefreshToken을 생성하는 메서드
+ * Authentication getAuthentication(String accessToken): Jwt 토큰을 복호화하여 토큰에 들어있는 정보를 꺼내는 메서드
  */
 
 @Slf4j

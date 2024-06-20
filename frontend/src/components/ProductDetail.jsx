@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import "../css/product_detail.css";
 
+
 const ProductDetail = ({ productId }) => {
     const [product, setProduct] = useState(null);
     const [storeInfo, setStoreInfo] = useState(null);
@@ -55,14 +56,25 @@ const ProductDetail = ({ productId }) => {
     const handleStoreMove = async () => {
         const storeId = storeInfo.id; // 상점 ID를 가져옵니다
 
-        try {
+        try{
             const token = localStorage.getItem('token');
-            const response = await axios.get()
+            const response = await axios.get(`/api/stores/current`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            const currentUserStore = response.data;
+
+            if (currentUserStore.id === storeId) {
+                // 사용자가 판매자 본인인 경우
+                navigate("/MyStorePage");
+            } else {
+                // 사용자가 판매자가 아닌 경우
+                navigate(`/store/${storeId}`);
+            }
+        } catch (error) {
+            console.error('Error fetching current user store:', error);
         }
-        navigate(`/store/${storeId}`); // 상점 페이지로 이동합니다
-
-        // 만약 누르는 사람이 판매자 당사자면 내 상점으로 이동하게 하는 로직을 추가로 작성해야 함
-
     };
 
     const handleLike = async () => {

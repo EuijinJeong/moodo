@@ -1,11 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import "../css/product_detail.css";
 
 const ProductDetail = ({ productId }) => {
     const [product, setProduct] = useState(null);
     const [storeInfo, setStoreInfo] = useState(null);
-
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchProductAndStoreInfo = async () => {
@@ -51,9 +52,17 @@ const ProductDetail = ({ productId }) => {
         return <div>Loading...</div>;
     }
 
-    const handleStoreMove = () => {
+    const handleStoreMove = async () => {
         const storeId = storeInfo.id; // 상점 ID를 가져옵니다
-        window.location.href = `/store/${storeId}`; // 상점 페이지로 이동합니다
+
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.get()
+        }
+        navigate(`/store/${storeId}`); // 상점 페이지로 이동합니다
+
+        // 만약 누르는 사람이 판매자 당사자면 내 상점으로 이동하게 하는 로직을 추가로 작성해야 함
+
     };
 
     const handleLike = async () => {
@@ -112,7 +121,7 @@ const ProductDetail = ({ productId }) => {
                     <p><strong>상점명:</strong> {storeInfo.name}</p>
                     <p><strong>상품 수:</strong> {storeInfo.productsCount}</p>
                     <p>{storeInfo.description}</p>
-                    <button className="store-move-button" onClick={handleStoreMove}>상점으로 이동</button>
+                    <button className="store-move-button" onClick={handleStoreMove}>판매자 상점으로 이동</button>
                 </div>
             </div>
         </div>

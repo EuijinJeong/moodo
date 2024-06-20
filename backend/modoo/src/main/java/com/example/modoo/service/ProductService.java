@@ -85,10 +85,11 @@ public class ProductService {
         String email = userEmailLookupService.getCurrentUserEmail();
 
         if(storeDto.getEmail().equals(email)) {
-            throw new RuntimeException("You cannot like your own product.");
+            
         }
         // 찜 수를 하나 증가시킴
         product.setLikedCount(product.getLikedCount() + 1);
+
         Product updatedProduct = productRepository.save(product);
 
         return convertToDto(updatedProduct);

@@ -60,6 +60,7 @@ public class StoreController {
     @GetMapping("/{storeId}")
     public ResponseEntity<StoreDto> getStoreInfo(@PathVariable Long storeId) {
         StoreDto storeDto = storeService.getStoreInfoById(storeId);
+        System.out.println("http 요청 잘 도착함.");
         return ResponseEntity.ok(storeDto);
     }
 }

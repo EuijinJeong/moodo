@@ -3,8 +3,6 @@ package com.example.modoo.config;
 //import com.example.modoo.jwt.CustomUserDetailsService;
 import com.example.modoo.jwt.JwtFilter;
 import com.example.modoo.jwt.TokenProvider;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -18,8 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
-
-import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
@@ -47,23 +43,12 @@ public class WebSecurityConfig {
                         .accessDeniedHandler(accessDeniedHandler)
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 )
-                .logout(logout -> logout
-                        .logoutUrl("/api/logout") // 로그아웃 엔드포인트 설정
-                        .invalidateHttpSession(true) // 세션 무효화
-                        .deleteCookies("JSESSIONID") // JSESSIONID 쿠키 삭제
-                        .logoutSuccessHandler((request, response, authentication) -> {
-                            response.setStatus(HttpServletResponse.SC_OK); // 로그아웃 성공 시 상태 코드 200 반환
-                            response.setContentType("application/json");
-                        })
-                )
-
                 // 아래 코드에서 오류 발생, 주석처리 했더니 401 오류 없어지면서 정상 작동함. 나중에 디버깅 필요
 //                .formLogin(form -> form
 //                        .loginPage("/signIn")
 //                        .successHandler(loginSuccessHandler) // 로그인 성공 핸들러 추가
 //                )
                 .addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
-
 
         return http.build();
     }

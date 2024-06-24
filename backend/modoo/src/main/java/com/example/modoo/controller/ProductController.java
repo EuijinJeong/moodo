@@ -1,7 +1,6 @@
 package com.example.modoo.controller;
 
 import com.example.modoo.dto.ProductDto;
-import com.example.modoo.entity.Product;
 import com.example.modoo.repository.ProductRepository;
 import com.example.modoo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * 이 컨트롤러는 주어진 ID로 제품을 조회하는 REST API 엔드포인트를 제공합니다.
@@ -57,6 +55,18 @@ public class ProductController {
     public ResponseEntity<ProductDto> likeProduct(@PathVariable Long productId) {
         ProductDto productDto = productService.likeProduct(productId);
         return ResponseEntity.ok(productDto);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<ProductDto>> searchProducts(@RequestParam String query) {
+        List<ProductDto> searchResults = productService.searchProducts(query);
+        return ResponseEntity.ok(searchResults);
+    }
+
+    @GetMapping("products/random")
+    public ResponseEntity<List<ProductDto>> getRandomProducts(@RequestParam int count) {
+        List<ProductDto> randomProducts = productService.getRandomProducts(count);
+        return ResponseEntity.ok(randomProducts);
     }
 
 }

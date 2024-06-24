@@ -8,6 +8,7 @@ import MyStorePage from "./pages/MyStorePage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import UserStorePage from "./pages/UserStorePage";
 import RequireAuth from './components/RequireAuth';
+import SearchResultPage from "./pages/SearchResultPage";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
               <Route path="/MyStorePage" element={<RequireAuth><MyStorePage /></RequireAuth>} />
               <Route path="/product/:productId" element={<RequireAuth><ProductDetailPage /></RequireAuth>} />
               <Route path="/store/:storeId" element={<RequireAuth><UserStorePage /></RequireAuth>} />
+              <Route path="/search" element={<RequireAuth><SearchResultPage /></RequireAuth>} />
           </Routes>
       </Router>
   );

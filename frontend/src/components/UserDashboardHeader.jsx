@@ -6,9 +6,33 @@ import axios from "axios"; // Include CSS for styling
 
 const UserDashboardHeader = () => {
     const [show, setShow] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
     const navigate = useNavigate();
     const toggleMenu = () => {
         setShow((prevShow) => !prevShow);
+    };
+
+    const handleSearch = async () => {
+        if (searchQuery.trim() === '') return;
+
+        try{
+            const response = await axios.get(`/api/search?query=${searchQuery}`, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+            const searchResponse = response.data;
+
+            navigate('/search', { state: { results: searchResponse } });
+        } catch (e) {
+            console.error('Search failed', e);
+        }
+    };
+
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            handleSearch();
+        }
     };
 
     const handleLogout = async () => {
@@ -39,7 +63,14 @@ const UserDashboardHeader = () => {
           <div className="header_inner">
               <div className="header_logo">
                   <a href="/BookTradingMainPage">모두의 전공책</a></div>
-              <input type="text" className="search-bar" placeholder="전공책 이름, 출판사명 입력" />
+              <input
+                  type="text"
+                  className="search-bar"
+                  placeholder="전공책 이름, 출판사명 입력"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyPress={handleKeyPress}
+              />
               <nav className={`header_nav ${show ? "show" : ""}`} role="navigation">
                   <ul>
                       <li><Link to="/ProductRegistrationPage">판매하기</Link></li>

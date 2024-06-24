@@ -96,6 +96,16 @@ public class ProductService {
         return convertToDto(updatedProduct);
     }
 
+    public List<ProductDto> searchProducts(String query) {
+        List<Product> products = productRepository.findByTitleContaining(query);
+        return products.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
+    public List<ProductDto> getRandomProducts(int count) {
+        List<Product> randomProducts = productRepository.findRandomProducts(count);
+        return randomProducts.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
     // Product 엔티티를 ProductDto로 변환하는 메서드
     public ProductDto convertToDto(Product product) {
         ProductDto productDto = new ProductDto();

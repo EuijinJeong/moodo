@@ -53,6 +53,9 @@ dependencies {
 
     // ModelMapper
     implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.4.2'
+
+    // websocket
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
 }
 
 

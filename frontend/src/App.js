@@ -9,6 +9,7 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 import UserStorePage from "./pages/UserStorePage";
 import RequireAuth from './components/RequireAuth';
 import SearchResultPage from "./pages/SearchResultPage";
+import ChatRoomPage from "./pages/ChatRoomPage";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
               <Route path="/product/:productId" element={<RequireAuth><ProductDetailPage /></RequireAuth>} />
               <Route path="/store/:storeId" element={<RequireAuth><UserStorePage /></RequireAuth>} />
               <Route path="/search" element={<RequireAuth><SearchResultPage /></RequireAuth>} />
+              <Route path="/ChatRoomPage" element={<RequireAuth><ChatRoomPage /></RequireAuth>}/>
           </Routes>
       </Router>
   );

@@ -56,6 +56,12 @@ dependencies {
 
     // websocket
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+    // SpringDoc OpenAPI
+//    implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
+//    implementation 'org.springdoc:springdoc-openapi-data-rest:1.6.15'
+//    implementation 'org.springdoc:springdoc-openapi-security:1.6.15'
+//    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:1.6.15'
 }
 
 

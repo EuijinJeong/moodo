@@ -1,8 +1,20 @@
-const { override, adjustStyleLoaders } = require('customize-cra');
+const { override, addWebpackPlugin } = require('customize-cra');
+const webpack = require('webpack');
 
 module.exports = {
     webpack: override(
-        // 추가 Webpack 설정들
+        addWebpackPlugin(
+            new webpack.ProvidePlugin({
+                process: 'process/browser',
+            })
+        ),
+        config => {
+            config.resolve.fallback = {
+                ...config.resolve.fallback,
+                "process": require.resolve("process/browser"),
+            };
+            return config;
+        }
     ),
     devServer: (configFunction) => (proxy, allowedHost) => {
         const config = configFunction(proxy, allowedHost);

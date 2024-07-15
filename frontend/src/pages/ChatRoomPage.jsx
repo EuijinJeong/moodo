@@ -7,8 +7,9 @@ const ChatRoomPage = () => {
     return (
         <div>
             <UserDashboardHeader />
-            <ChatRoomList />
+            <ChatRoomList storeId={storeId}/>
             <ChatRoom />
+            <p>채팅룸 화면입니다.</p>
         </div>
     );
 };

@@ -75,7 +75,7 @@ const UserDashboardHeader = () => {
                   <ul>
                       <li><Link to="/ProductRegistrationPage">판매하기</Link></li>
                       <li><a href="/MyStorePage">내상점</a></li>
-                      <li><a href="/">모두톡</a></li>
+                      <li><a href="/ChatRoomPage">모두톡</a></li>
                       <li><button onClick={handleLogout} className="logout-button">로그아웃</button></li>
                   </ul>
               </nav>

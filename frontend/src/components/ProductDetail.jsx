@@ -100,6 +100,28 @@ const ProductDetail = ({ productId }) => {
         }
     };
 
+    // 모두톡 버튼을 누를 시 호출되는 핸들러 메소드
+    // 사용자 정보와 재품 정보를 전달해야함.
+    const handleMessageMove = async ()=> {
+        const storeId = storeInfo.id;
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.post(`/api/go-to-chatroom/${storeId}`, {
+                productId: product.id
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            // chatRoomId는 클라이언트가 이동해야 할 채팅방의 ID이고, messages는 해당 채팅방의 기존 메시지
+            const { chatRoomId, messages } = response.data;
+
+        } catch (error) {
+            console.error('Error navigating to chatroom:', error);
+        }
+        }
+    };
+
     return (
         <div>
             <div className="product-detail-inbox">
@@ -117,7 +139,7 @@ const ProductDetail = ({ productId }) => {
                         <button className="product-detail__like" onClick={handleLike}>
                             찜 {product.likedCount}
                         </button>
-                        <button className="product-detail__chat">모두톡</button>
+                        <button className="product-detail__chat" onClick={handleMessageMove}>모두톡</button>
                         <button className="product-detail__buy">바로구매</button>
                     </div>
                 </div>

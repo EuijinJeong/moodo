@@ -13,4 +13,7 @@ public interface StoreRepository extends JpaRepository <Store, Long> {
 
     // Member ID로 Store 찾기
     Optional<Store> findByMemberId(Long memberId);
+
+    // Store ID 를 통해서 해당 판매자 찾기
+    Optional<Store> findById(Long id);
 }

@@ -53,6 +53,10 @@ const ProductDetail = ({ productId }) => {
         return <div>Loading...</div>;
     }
 
+    /**
+     *
+     * @returns {Promise<void>}
+     */
     const handleStoreMove = async () => {
         const storeId = storeInfo.id; // 상점 ID를 가져옵니다
 
@@ -77,6 +81,10 @@ const ProductDetail = ({ productId }) => {
         }
     };
 
+    /**
+     *
+     * @returns {Promise<void>}
+     */
     const handleLike = async () => {
         try {
             const token = localStorage.getItem('token');
@@ -100,25 +108,29 @@ const ProductDetail = ({ productId }) => {
         }
     };
 
-    // 모두톡 버튼을 누를 시 호출되는 핸들러 메소드
-    // 사용자 정보와 재품 정보를 전달해야함.
+    /**
+     * 모두톡 버튼을 누를 시 호출 되는 핸들러 메소드
+     * 사용자 정보와 재품 정보를 전달 해야함.
+     * @returns {Promise<void>}
+     */
     const handleMessageMove = async ()=> {
         const storeId = storeInfo.id;
         try {
             const token = localStorage.getItem('token');
             const response = await axios.post(`/api/go-to-chatroom/${storeId}`, {
-                productId: product.id
+                // TODO: 이거 왜 데이터 productId 보내야 하는지 기억 안남..
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
+            console.log('Chat room response:', response.data);
             // chatRoomId는 클라이언트가 이동해야 할 채팅방의 ID이고, messages는 해당 채팅방의 기존 메시지
             const { chatRoomId, messages } = response.data;
+            navigate(`/chat-room/${storeId}`);
 
         } catch (error) {
             console.error('Error navigating to chatroom:', error);
-        }
         }
     };
 

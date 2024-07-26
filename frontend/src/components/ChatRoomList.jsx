@@ -12,4 +12,6 @@ const ChatRoomList = ({ messages = [], setSelectedChat }) => {
     );
 };
 
+// TODO: 페이지 이동은 되는데, 리스트 형태로 이거 화면에 안뜸.. UI도 확인해야 하는데 일단 데베 설계부터 확실히 해야 할 듯.
+
 export default ChatRoomList;

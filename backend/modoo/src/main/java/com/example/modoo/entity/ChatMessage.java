@@ -15,15 +15,17 @@ public class ChatMessage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "sender", nullable = false)
-    private String sender;
+    @ManyToOne
+    @JoinColumn(name = "chat_room_id")
+    private ChatRoom chatRoom;
 
-    @Column(name = "receiver", nullable = false)
-    private String receiver;
+    @ManyToOne
+    @JoinColumn(name = "sender_id")
+    private Member sender;
 
-    @Column(name = "content", nullable = false)
-    private String content;
+    @Column(name = "message_content")
+    private String messaageContent;
 
-    @Column(name = "timestamp", nullable = false)
-    private LocalDateTime timeStamp;
+    @Column(name = "time_stamp")
+    private LocalDateTime timestamp;
 }

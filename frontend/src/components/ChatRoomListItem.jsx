@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import "../css/chat-room-list-item.css"
 
 const ChatRoomListItem = ({ message, onClick }) => {
+
     return (
         <div className="chat-list-item" onClick={onClick}>
             <div className="chat-user">사용자명{message.sender}</div>

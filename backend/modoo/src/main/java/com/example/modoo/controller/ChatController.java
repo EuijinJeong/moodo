@@ -9,6 +9,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("api")
@@ -20,6 +22,11 @@ public class ChatController {
     @Autowired
     UserEmailLookupService userEmailLookupService;
 
+    /**
+     *
+     * @param storeId
+     * @return
+     */
     @PostMapping("/go-to-chatroom/{storeId}")
     @MessageMapping("/chat.sendMessage")
     public ResponseEntity<ChatRoomDto> gotoChatRoom(@PathVariable Long storeId) {
@@ -34,6 +41,18 @@ public class ChatController {
         return ResponseEntity.ok(chatRoomDto);
     }
 
-    // TODO: 페이지 이동은 되는데, 리스트 형태로 화면에 안보여짐. 이거 수정해야 함.
+    /**
+     *
+     * @return
+     */
+    @GetMapping("/chat-room-lists")
+    public ResponseEntity<List<ChatRoomDto>> getUserChatRoomLists() {
+        String userEmail = userEmailLookupService.getCurrentUserEmail(); // 현재 로그인한 사용자의 정보 가져옴
+        List<ChatRoomDto> chatRooms = chatService.getUserChatRooms(userEmail);
+        return ResponseEntity.ok(chatRooms);
+    }
+
+
+
 
 }

@@ -1,17 +1,37 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import ChatRoomListItem from "./ChatRoomListItem";
+import axios from "axios";
 
 const ChatRoomList = ({ messages = [], setSelectedChat }) => {
+    const [chatRooms, setChatRooms] = useState([]);
+
+    // TODO: 서버에 채팅룸 리스트 불러오는 요청 보내는 메소드 작성해야 함.
+    useEffect(() => {
+        const fetchChatRooms = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await axios.get('/api/chat-room-lists', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                setChatRooms(response.data);
+            } catch (error) {
+                console.error("Chatroom List를 서버에서 불러오는 과정에서 오류가 발생했습니다.", error);
+            }
+        }
+
+        fetchChatRooms();
+    }, []);
+    
     return (
         <div className="chat-list">
             <h2>전체 대화</h2>
-            {messages.map((msg, index) => (
+            {chatRooms.map((msg, index) => (
                 <ChatRoomListItem key={index} message={msg} onClick={() => setSelectedChat(msg)} />
             ))}
         </div>
     );
 };
-
-// TODO: 페이지 이동은 되는데, 리스트 형태로 이거 화면에 안뜸.. UI도 확인해야 하는데 일단 데베 설계부터 확실히 해야 할 듯.
 
 export default ChatRoomList;

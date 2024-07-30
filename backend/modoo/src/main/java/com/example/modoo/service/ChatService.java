@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ChatService {
@@ -38,7 +39,6 @@ public class ChatService {
      * @param storeId : 사용자가 메세지를 보내는 사람의 상점 아이디 값 ( receiver )
      * @return
      */
-    // TODO: 아래 두개 수정하려면 이거 로직 제대로 다시 짜야함...
     public ChatRoomDto findOrCreateChatRoom(String userEmail, long storeId) {
 
         // 이메일을 통해 사용자 정보 조회
@@ -71,6 +71,20 @@ public class ChatService {
 
         // DTO로 변환하여 반환함.
         return convertToDto(chatRoom);
+    }
+
+    /**
+     *
+     * @param email:
+     * @return
+     */
+    public List<ChatRoomDto> getUserChatRooms(String email) {
+        // 현재 로그인한 사용자의 정보
+        Member user = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("해당 사용자의 이메일을 찾을 수 없습니다." + email));
+
+        List<ChatRoom> chatRooms = chatRoomRepository.findBySenderId(user.getId());
+        return chatRooms.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     /**

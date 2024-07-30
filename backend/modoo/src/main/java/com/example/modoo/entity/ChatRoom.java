@@ -16,11 +16,11 @@ public class ChatRoom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "receiver_id")
-    private Long receiverId;
+    @Column(name = "receiver_id", nullable = false)
+    private Long receiverId; // 판매자
 
-    @Column(name = "sender_id")
-    private Long senderId;
+    @Column(name = "sender_id", nullable = false)
+    private Long senderId; // 구매자
 
     @Column(name = "last_message")
     private String lastMessage;

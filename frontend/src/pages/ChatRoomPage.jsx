@@ -6,14 +6,13 @@ import {useParams} from "react-router-dom";
 import ChatRoomWrapper from "../components/ChatRoomWrapper";
 
 const ChatRoomPage = () => {
-    const { storeId } = useParams();
+    const { storeId , roomId} = useParams();
 
     return (
         <div>
             <UserDashboardHeader />
-            <ChatRoomWrapper storeId={storeId}/>
-            <ChatRoom />
-            <p>채팅룸 화면입니다.</p>
+            <ChatRoomWrapper storeId={storeId} roomId={roomId} />
+            <ChatRoom roomId={roomId}/>
         </div>
     );
 };

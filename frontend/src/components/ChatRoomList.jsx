@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import ChatRoomListItem from "./ChatRoomListItem";
 import axios from "axios";
+import {Link} from "react-router-dom";
 
-const ChatRoomList = ({ messages = [], setSelectedChat }) => {
+const ChatRoomList = ({ storeId , setSelectedChat }) => {
     const [chatRooms, setChatRooms] = useState([]);
 
     // TODO: 서버에 채팅룸 리스트 불러오는 요청 보내는 메소드 작성해야 함.
@@ -23,12 +23,18 @@ const ChatRoomList = ({ messages = [], setSelectedChat }) => {
 
         fetchChatRooms();
     }, []);
-    
+
     return (
         <div className="chat-list">
             <h2>전체 대화</h2>
-            {chatRooms.map((msg, index) => (
-                <ChatRoomListItem key={index} message={msg} onClick={() => setSelectedChat(msg)} />
+            {chatRooms.map((room) => (
+                <Link to={`/chat-room/${storeId}/${room.id}`} key={room.id}>
+                    <div className="chat-list-item">
+                        <div className="chat-user">사용자명: {room.sender}</div>
+                        <div className="chat-preview">대화 미리보기: {room.lastMessage}</div>
+                        <div className="chat-preview">대화 시간: {new Date(room.lastMessageTime).toLocaleDateString()}</div>
+                    </div>
+                </Link>
             ))}
         </div>
     );

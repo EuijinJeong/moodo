@@ -24,7 +24,8 @@ function App() {
               <Route path="/product/:productId" element={<RequireAuth><ProductDetailPage /></RequireAuth>} />
               <Route path="/store/:storeId" element={<RequireAuth><UserStorePage /></RequireAuth>} />
               <Route path="/search" element={<RequireAuth><SearchResultPage /></RequireAuth>} />
-              <Route path="/chat-room/:storeId" element={<RequireAuth><ChatRoomPage /></RequireAuth>}/>
+              <Route path="/chat-room/:storeId" element={<RequireAuth><ChatRoomPage /></RequireAuth>} />
+              <Route path="/chat-room/:storeId/:roomId" element={<RequireAuth><ChatRoomPage /></RequireAuth>} />
           </Routes>
       </Router>
   );

@@ -2,28 +2,27 @@
     display: flex;
     flex-direction: column;
     padding: 10px;
+    border-bottom: 1px solid #e6e6e6;
     cursor: pointer;
-    border-bottom: 1px solid #eee;
     transition: background-color 0.3s;
 }
 
 .chat-list-item:hover {
-    background-color: #f0f0f0;
+    background-color: #f1f1f1;
 }
 
 .chat-user {
     font-weight: bold;
-    margin-bottom: 5px;
+    color: #333;
 }
 
 .chat-preview {
-    font-size: 0.9em;
     color: #666;
-    margin-bottom: 5px;
+    font-size: 14px;
 }
 
-.chat-timestamp {
-    font-size: 0.8em;
-    color: #aaa;
+.chat-time {
+    color: #999;
+    font-size: 12px;
     align-self: flex-end;
 }

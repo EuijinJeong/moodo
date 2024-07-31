@@ -1,5 +1,6 @@
 package com.example.modoo.service;
 
+import com.example.modoo.dto.ChatMessageDto;
 import com.example.modoo.dto.ChatRoomDto;
 import com.example.modoo.dto.MemberResponseDto;
 import com.example.modoo.entity.ChatMessage;
@@ -30,11 +31,13 @@ public class ChatService {
     @Autowired
     private StoreRepository storeRepository;
 
-
+    @Autowired
+    private ChatMessageRepository chatMessageRepository;
 
 
     /**
-     *
+     * 현재 로그인한 사용자의 이메일과 상점의 아이디 값을 기반으로 존재하는 채팅방을 찾거나,
+     * 없다면 이 정보를 기반으로 채팅방을 생성하는 메서드
      * @param userEmail : 현재 로그인한 사용자 ( sender )
      * @param storeId : 사용자가 메세지를 보내는 사람의 상점 아이디 값 ( receiver )
      * @return
@@ -74,8 +77,8 @@ public class ChatService {
     }
 
     /**
-     *
-     * @param email:
+     * 현재 로그인한 사용자가 함여하고 있는 채팅방의 리스트를 가져오는 메서드
+     * @param email : 현재 로그인한 사용자의 이메일 정보
      * @return
      */
     public List<ChatRoomDto> getUserChatRooms(String email) {
@@ -87,18 +90,46 @@ public class ChatService {
         return chatRooms.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
+    public ChatRoomDto getChatRoomById(Long roomId) {
+        ChatRoom chatRoom = chatRoomRepository.findById(roomId)
+                .orElseThrow(() -> new RuntimeException("Chat room not found with id: " + roomId));
+
+        List<ChatMessage> messages = chatMessageRepository.findByChatRoomId(roomId);
+        List<ChatMessageDto> messageDtos = messages.stream().map(this::convertToDto).collect(Collectors.toList());
+
+        ChatRoomDto chatRoomDto = convertToDto(chatRoom);
+        chatRoomDto.setChatMessageList(messageDtos); // 메시지 목록을 DTO에 설정
+        return chatRoomDto;
+    }
+
+    public List<ChatMessageDto> getMessageByChatRoomId(Long roomId) {
+        List<ChatMessage> messages = chatMessageRepository.findByChatRoomId(roomId);
+        return messages.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
     /**
      *
      * @param chatRoom 엔티티 클래스
      * @return 엔티티 클래스에 있는 정보를 Dto 객체에 담아 리턴함.
      */
     public ChatRoomDto convertToDto(ChatRoom chatRoom) {
-        ChatRoomDto chatRoomDto = new ChatRoomDto();
-        chatRoomDto.setReceiver(chatRoom.getReceiverId());
-        chatRoomDto.setSender(chatRoom.getSenderId());
-        chatRoomDto.setLastMessage(chatRoom.getLastMessage());
-        chatRoomDto.setLastMessageTime(chatRoom.getLastMessageTime());
+        ChatRoomDto dto = new ChatRoomDto();
+        dto.setId(chatRoom.getId());
+        dto.setReceiver(chatRoom.getReceiverId());
+        dto.setSender(chatRoom.getSenderId());
+        dto.setLastMessage(chatRoom.getLastMessage());
+        dto.setLastMessageTime(chatRoom.getLastMessageTime());
+        return dto;
+    }
 
-        return  chatRoomDto;
+    // FIXME: 이거 완료해서 작성해야함.
+    public ChatMessageDto convertToDto(ChatMessage message) {
+        ChatMessageDto dto = new ChatMessageDto();
+        dto.setId(message.getId());
+        dto.setSenderId(message.getSender().getId());
+        dto.setMessageContent(message.getMessaageContent());
+        dto.setTimestamp(message.getTimestamp());
+
+        return dto;
     }
 }

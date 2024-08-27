@@ -17,7 +17,7 @@
 - **프론트엔드**: React, Axios
 - **백엔드**: Spring Boot, Spring Data JPA, Spring Security, WebSocket
 - **데이터베이스**: MySQL
-- **빌드 도구**: Maven
+- **빌드 도구**: Gradle
 - **기타 도구**: Lombok, JWT, Hibernate
 
 ## 설치 및 실행 방법

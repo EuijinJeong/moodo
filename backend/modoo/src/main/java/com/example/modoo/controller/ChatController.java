@@ -39,6 +39,7 @@ public class ChatController {
     /**
      * 판매자의 상점 아이디를 기반으로 채팅방을 생성하거나 찾는 메서드
      * 모두톡 버튼 클릭하면 실행
+     *
      * @param storeId: 판매자의 상점 아이디
      * @return 생성되거나 찾은 채팅방의 정보
      */
@@ -93,7 +94,6 @@ public class ChatController {
      * @return 생성된 메시지 정보
      */
 
-    // FIXME: receiver, sender 값이 Null 이어서 500 오류 발생. 이거 고쳐야함. 로직적인 오류인 듯.
     @PostMapping("/chat-rooms/{roomId}/messages")
     public ResponseEntity<?> sendMessage(@PathVariable Long roomId, @RequestBody ChatMessageDto chatMessageDto) {
         try {
@@ -123,7 +123,7 @@ public class ChatController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
             }
         } catch (Exception e) {
-            e.printStackTrace(); // 로그를 찍어보자
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류 발생");
         }
     }

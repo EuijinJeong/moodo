@@ -31,6 +31,13 @@ public class ProductService {
 
     @Autowired
     private FileService fileService;
+
+    /**
+     *
+     * @param productDto
+     * @param files
+     * @return
+     */
     public Product saveProduct(ProductDto productDto, List<MultipartFile> files) {
 
         // 현재 인증된 사용자의 이메일 가져오기
@@ -63,19 +70,35 @@ public class ProductService {
         return  savedProduct;
     }
 
-    // 제품 id를 통해 제품을 조회하는 메서드
+    /**
+     * 제품 id를 통해 제품을 조회하는 메서드
+     *
+     * @param productId
+     * @return
+     */
     public ProductDto getProductById(Long productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
         return convertToDto(product);
     }
 
-    // 상점 id를 기준으로 상점에 등록되어있는 제품 목록을 조회하는 메서드
+    /**
+     * 상점 id를 기준으로 상점에 등록되어있는 제품 목록을 조회하는 메서드
+     *
+     * @param storeId
+     * @return
+     */
     public List<ProductDto> getProductsByStoreId(Long storeId) {
         List<Product> products = productRepository.findByStoreId(storeId);
         return products.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
+    /**
+     *
+     *
+     * @param productId
+     * @return
+     */
     public ProductDto likeProduct(Long productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
@@ -96,11 +119,23 @@ public class ProductService {
         return convertToDto(updatedProduct);
     }
 
+    /**
+     *
+     *
+     * @param query
+     * @return
+     */
     public List<ProductDto> searchProducts(String query) {
         List<Product> products = productRepository.findByTitleContaining(query);
         return products.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
+    /**
+     *
+     *
+     * @param count
+     * @return
+     */
     public List<ProductDto> getRandomProducts(int count) {
         List<Product> randomProducts = productRepository.findRandomProducts(count);
         return randomProducts.stream().map(this::convertToDto).collect(Collectors.toList());

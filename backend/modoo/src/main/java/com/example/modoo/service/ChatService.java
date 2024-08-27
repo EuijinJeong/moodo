@@ -38,7 +38,8 @@ public class ChatService {
     /**
      * 현재 로그인한 사용자의 이메일과 상점의 아이디 값을 기반으로 존재하는 채팅방을 찾거나,
      * 없다면 이 정보를 기반으로 채팅방을 생성하는 메서드
-     * @param userEmail : 현재 로그인한 사용자 ( sender )
+     *
+     * @param userEmail : 현재 로그인한 사용자 이메일( sender )
      * @param storeId : 사용자가 메세지를 보내는 사람의 상점 아이디 값 ( receiver )
      * @return
      */
@@ -58,6 +59,7 @@ public class ChatService {
         // 두 사용자 간의 채팅방 조회
         Optional<ChatRoom> chatRoomOptional = chatRoomRepository.findBySenderIdAndReceiverId(sender.getId(), receiver.getId());
 
+        // 채팅방 객체 생성
         ChatRoom chatRoom;
 
         if(chatRoomOptional.isPresent()) {
@@ -78,6 +80,7 @@ public class ChatService {
 
     /**
      * 현재 로그인한 사용자가 함여하고 있는 채팅방의 리스트를 가져오는 메서드
+     *
      * @param email : 현재 로그인한 사용자의 이메일 정보
      * @return
      */
@@ -92,6 +95,12 @@ public class ChatService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * roomId를 파라미터로 받아서 이에 해당하는 채팅방을 가져오는 역할을 수행하는 메소드
+     *
+     * @param roomId
+     * @return
+     */
     public ChatRoomDto getChatRoomById(Long roomId) {
         ChatRoom chatRoom = chatRoomRepository.findById(roomId)
                 .orElseThrow(() -> new RuntimeException("Chat room not found with id: " + roomId));
@@ -104,6 +113,12 @@ public class ChatService {
         return chatRoomDto;
     }
 
+    /**
+     * 채팅방의 roomId를 통해 채팅방 안에 있던 메세지의 내용들을 가져와서 반환하는 메서드
+     *
+     * @param roomId
+     * @return
+     */
     public List<ChatMessageDto> getMessageByChatRoomId(Long roomId) {
         List<ChatMessage> messages = chatMessageRepository.findByChatRoomId(roomId);
         return messages.stream().map(this::convertToDto).collect(Collectors.toList());
@@ -123,12 +138,13 @@ public class ChatService {
         Member sender = memberRepository.findById(chatMessageDto.getSenderId())
                 .orElseThrow(() -> new RuntimeException("발신자를 찾을 수 없습니다: " + chatMessageDto.getSenderId()));
 
-        // FIXME: 이게 지금 생성이 안돼서 계속 null값이 반환되는 것 같은데..?
         // ChatMessage 엔티티 생성 및 저장
         ChatMessage chatMessage = new ChatMessage();
         chatMessage.setChatRoom(chatRoom);
         chatMessage.setSender(sender);
         chatMessage.setMessageContent(chatMessageDto.getMessageContent()); // 수정된 부분
+
+
         chatMessage.setTimestamp(chatMessageDto.getTimestamp() != null ?
                 chatMessageDto.getTimestamp() : LocalDateTime.now());
 

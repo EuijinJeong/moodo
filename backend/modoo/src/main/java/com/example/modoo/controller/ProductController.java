@@ -31,7 +31,13 @@ public class ProductController {
     private ProductService productService;
 
 
-    // 상점 ID로 제품 목록을 가져오는 엔드포인트 추가 (여기에서 문제 발생)
+    // 상점 ID로 제품 목록을 가져오는 엔드포인트 추가
+
+    /**
+     *
+     * @param storeId
+     * @return
+     */
     @GetMapping("products/store/{storeId}")
     public ResponseEntity<List<ProductDto>> getProductsByStoreId(@PathVariable Long storeId){
         List<ProductDto> products = productService.getProductsByStoreId(storeId);

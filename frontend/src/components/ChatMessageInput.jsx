@@ -10,7 +10,7 @@ const ChatMessageInput = ({ onSendMessage }) => {
 
     const handleSend = () => {
         if(message.trim()) {
-            onSendMessage(message); // 여기에서 함수가 아니라고 계속 에러가 발생함.
+            onSendMessage(message);
             console.log('Message sent: ', message);
             setMessage(''); // 전송 후 입력창 비우기
         }

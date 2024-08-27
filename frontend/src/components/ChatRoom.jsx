@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import "../css/chat-room.css";
+import ChatMessageInput from "./ChatMessageInput";
+import ChatMessageBubble from "./ChatMessageBubble";
 
 const ChatRoom = ({roomId}) => {
     const [chatRoom, setChatRoom] = useState(null);
@@ -16,8 +18,11 @@ const ChatRoom = ({roomId}) => {
                             Authorization: `Bearer ${token}`
                         }
                     });
-                    setChatRoom(response.data.chatRoom);
-                    setMessages(response.data.messages);
+
+                    console.log("Chat room response: ", response.data); // 데이터 구조 확인
+
+                    setChatRoom(response.data); // 여기서 응답 데이터 전체를 사용합니다
+                    setMessages(response.data.chatMessageList || []); // chatMessageList가 null이면 빈 배열 사용
                 } catch (error) {
                     console.error("ChatRoom을 가져오는 과정에서 서버상 오류가 발생했습니다.", error);
                 }
@@ -26,23 +31,46 @@ const ChatRoom = ({roomId}) => {
         }
     }, [roomId]);
 
+    const handleSendMessage = async (messageContent) => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.post(`/api/chat-rooms/${roomId}/messages`,
+                {messageContent}, // messageContent만 보냄
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+            // 메시지가 성공적으로 전송된 후, messages 상태를 업데이트합니다.
+            setMessages([...messages, response.data]);
+        } catch (error) {
+            console.error("메세지 전송 중 오류가 발생했습니다.", error);
+        }
+    };
 
-    if(!chatRoom) {
+    if (!chatRoom) {
         return <div>Loading ...</div>;
+    } else if (messages.length === 0) {
+        return (
+            <div>
+                <div>No messages in this chat room.</div>
+                <ChatMessageInput onSendMessage={handleSendMessage} />  {/* 메시지를 보낼 수 있도록 입력 폼 표시 */}
+            </div>
+        );
     }
 
     return (
-        <div>
-            <h2>ChatRoom</h2>
-            <div>
+        <div className="chat-room">
+            <div className="messages">
                 {messages.map((message, index) => (
-                    <div key={index} className="message">
-                        <div className="sender">{message.sender}</div>
-                        <div className="content">{message.messageContent}</div>
-                        <div className="timestamp">{new Date(message.timestamp).toLocaleString()}</div>
-                    </div>
+                    <ChatMessageBubble
+                        key={index}
+                        message={message.messageContent}
+                        isOwnMessage={message.senderId === '현재 사용자 ID'} // 실제 사용자 ID와 비교
+                    />
                 ))}
             </div>
+            <ChatMessageInput onSendMessage={handleSendMessage} /> {/* 여기서 prop 전달 */}
         </div>
     );
 };

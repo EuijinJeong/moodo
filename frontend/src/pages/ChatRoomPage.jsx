@@ -12,7 +12,6 @@ const ChatRoomPage = () => {
         <div>
             <UserDashboardHeader />
             <ChatRoomWrapper storeId={storeId} roomId={roomId} />
-            <ChatRoom roomId={roomId}/>
         </div>
     );
 };

@@ -6,8 +6,8 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Table(name = "chatMessage")
 @Entity
+@Table(name = "chatMessage")
 @Getter
 @Setter
 public class ChatMessage {
@@ -24,7 +24,7 @@ public class ChatMessage {
     private Member sender;
 
     @Column(name = "message_content")
-    private String messaageContent;
+    private String messageContent;
 
     @Column(name = "time_stamp")
     private LocalDateTime timestamp;

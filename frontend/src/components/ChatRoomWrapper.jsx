@@ -1,17 +1,30 @@
 import React, {useEffect, useState} from 'react';
 import ChatRoomList from "./ChatRoomList";
 import ChatRoom from "./ChatRoom";
+import "../css/chat_room_wrapper.css"
 
+/**
+ *
+ *
+ * @param storeId
+ * @param roomId
+ * @returns {Element}
+ * @constructor
+ */
 const ChatRoomWrapper = ({ storeId, roomId }) => {
     const [selectedChat, setSelectedChat] = useState(null);
 
-    // FIXME: setSelectedChat가 함수가 아니라서 대화 리스트 클릭하면 오류 발생함 이거 고쳐야함.
     useEffect(() => {
-        // Fetch or initialize chat rooms if needed when storeId changes
+        // 필요한 초기화 작업
     }, [storeId]);
+
+    const handleChatSelect = (chat) => {
+        setSelectedChat(chat);
+        console.log("선택된 채팅방의 고유 아이디값: ", roomId);
+    }
+
     return (
         <div>
-            <h1>전체 대화</h1>
             <ChatRoomList storeId={storeId} setSelectedChat={setSelectedChat} />
             {selectedChat && (
                 <ChatRoom roomId={selectedChat.id} />

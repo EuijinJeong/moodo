@@ -73,7 +73,7 @@ public class ChatService {
         }
 
         // DTO로 변환하여 반환함.
-        return convertToDto(chatRoom);
+        return convertToDto(chatRoom, sender.getId());
     }
 
     /**
@@ -87,7 +87,9 @@ public class ChatService {
                 .orElseThrow(() -> new RuntimeException("해당 사용자의 이메일을 찾을 수 없습니다." + email));
 
         List<ChatRoom> chatRooms = chatRoomRepository.findBySenderId(user.getId());
-        return chatRooms.stream().map(this::convertToDto).collect(Collectors.toList());
+        return chatRooms.stream()
+                .map(chatRoom -> convertToDto(chatRoom, user.getId())) // currentUserId로 user.getId() 전달
+                .collect(Collectors.toList());
     }
 
     public ChatRoomDto getChatRoomById(Long roomId) {
@@ -97,7 +99,7 @@ public class ChatService {
         List<ChatMessage> messages = chatMessageRepository.findByChatRoomId(roomId);
         List<ChatMessageDto> messageDtos = messages.stream().map(this::convertToDto).collect(Collectors.toList());
 
-        ChatRoomDto chatRoomDto = convertToDto(chatRoom);
+        ChatRoomDto chatRoomDto = convertToDto(chatRoom, chatRoom.getSenderId());
         chatRoomDto.setChatMessageList(messageDtos); // 메시지 목록을 DTO에 설정
         return chatRoomDto;
     }
@@ -108,17 +110,50 @@ public class ChatService {
     }
 
     /**
+     * 메시지를 저장하는 메서드
+     *
+     * @param chatMessageDto
+     */
+    public void saveMessage(ChatMessageDto chatMessageDto) {
+        // ChatRoom 조회
+        ChatRoom chatRoom = chatRoomRepository.findById(chatMessageDto.getChatRoomId())
+                .orElseThrow(() -> new RuntimeException("해당 채팅방을 찾을 수 없습니다: " + chatMessageDto.getChatRoomId()));
+
+        // Member 조회
+        Member sender = memberRepository.findById(chatMessageDto.getSenderId())
+                .orElseThrow(() -> new RuntimeException("발신자를 찾을 수 없습니다: " + chatMessageDto.getSenderId()));
+
+        // FIXME: 이게 지금 생성이 안돼서 계속 null값이 반환되는 것 같은데..?
+        // ChatMessage 엔티티 생성 및 저장
+        ChatMessage chatMessage = new ChatMessage();
+        chatMessage.setChatRoom(chatRoom);
+        chatMessage.setSender(sender);
+        chatMessage.setMessageContent(chatMessageDto.getMessageContent()); // 수정된 부분
+        chatMessage.setTimestamp(chatMessageDto.getTimestamp() != null ?
+                chatMessageDto.getTimestamp() : LocalDateTime.now());
+
+        chatMessageRepository.save(chatMessage);
+    }
+
+    /**
      *
      * @param chatRoom 엔티티 클래스
      * @return 엔티티 클래스에 있는 정보를 Dto 객체에 담아 리턴함.
      */
-    public ChatRoomDto convertToDto(ChatRoom chatRoom) {
+    public ChatRoomDto convertToDto(ChatRoom chatRoom, Long currentUserId) {
         ChatRoomDto dto = new ChatRoomDto();
         dto.setId(chatRoom.getId());
         dto.setReceiver(chatRoom.getReceiverId());
         dto.setSender(chatRoom.getSenderId());
         dto.setLastMessage(chatRoom.getLastMessage());
         dto.setLastMessageTime(chatRoom.getLastMessageTime());
+        dto.setCurrentUserId(currentUserId); // 현재 사용자의 ID 설정
+
+        // 메시지 목록을 DTO로 변환
+        dto.setChatMessageList(chatRoom.getChatMessages().stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList()));
+
         return dto;
     }
 
@@ -127,7 +162,7 @@ public class ChatService {
         ChatMessageDto dto = new ChatMessageDto();
         dto.setId(message.getId());
         dto.setSenderId(message.getSender().getId());
-        dto.setMessageContent(message.getMessaageContent());
+        dto.setMessageContent(message.getMessageContent());
         dto.setTimestamp(message.getTimestamp());
 
         return dto;

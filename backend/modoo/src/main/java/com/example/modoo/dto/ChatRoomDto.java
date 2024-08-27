@@ -16,4 +16,5 @@ public class ChatRoomDto {
     private String lastMessage;
     private LocalDateTime lastMessageTime;
     private List<ChatMessageDto> chatMessageList; // 해당 유저가 생성한 chatRoomList 목록
+    private Long currentUserId; // 현재 사용자의 ID 추가
 }

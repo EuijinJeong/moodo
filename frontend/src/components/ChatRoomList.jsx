@@ -1,11 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import {Link} from "react-router-dom";
+import ChatRoomListItem from "./ChatRoomListItem";
 
+
+/**
+ * 서버에서 받아온 채팅방 리스트를 표시하고,
+ * 방을 클릭하면 setSelectedChat을 호출해서 상위 컴포넌트에 선택된 방을 알려준다.
+ *
+ * @param storeId
+ * @param setSelectedChat
+ * @returns {Element}
+ * @constructor
+ */
 const ChatRoomList = ({ storeId , setSelectedChat }) => {
     const [chatRooms, setChatRooms] = useState([]);
 
-    // TODO: 서버에 채팅룸 리스트 불러오는 요청 보내는 메소드 작성해야 함.
+    // 서버에 채팅룸 리스트를 불러오는 요청
     useEffect(() => {
         const fetchChatRooms = async () => {
             try {
@@ -15,6 +25,7 @@ const ChatRoomList = ({ storeId , setSelectedChat }) => {
                         Authorization: `Bearer ${token}`
                     }
                 });
+                console.log("Chat room List response:", response.data);  // 데이터 확인
                 setChatRooms(response.data);
             } catch (error) {
                 console.error("Chatroom List를 서버에서 불러오는 과정에서 오류가 발생했습니다.", error);
@@ -25,17 +36,22 @@ const ChatRoomList = ({ storeId , setSelectedChat }) => {
     }, []);
 
     return (
-        <div className="chat-list">
-            <h2>전체 대화</h2>
-            {chatRooms.map((room) => (
-                <Link to={`/chat-room/${storeId}/${room.id}`} key={room.id}>
-                    <div className="chat-list-item">
-                        <div className="chat-user">사용자명: {room.sender}</div>
-                        <div className="chat-preview">대화 미리보기: {room.lastMessage}</div>
-                        <div className="chat-preview">대화 시간: {new Date(room.lastMessageTime).toLocaleDateString()}</div>
-                    </div>
-                </Link>
-            ))}
+        <div className="chat-room-list">
+            <h2>채팅방 목록</h2>
+            <ul>
+                {chatRooms.length > 0 ? (
+                    chatRooms.map((room) => (
+                        <li key={room.id}>
+                            <ChatRoomListItem
+                                room={room}
+                                onClick={() => setSelectedChat(room)}
+                            />
+                        </li>
+                    ))
+                ) : (
+                    <li>채팅방이 없습니다.</li>
+                )}
+            </ul>
         </div>
     );
 };

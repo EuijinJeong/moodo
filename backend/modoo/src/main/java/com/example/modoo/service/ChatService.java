@@ -149,6 +149,12 @@ public class ChatService {
                 chatMessageDto.getTimestamp() : LocalDateTime.now());
 
         chatMessageRepository.save(chatMessage);
+
+        // ChatRoom의 last_message와 last_message_time 업데이트
+        chatRoom.setLastMessage(chatMessageDto.getMessageContent());
+        chatRoom.setLastMessageTime(LocalDateTime.now());
+
+        chatRoomRepository.save(chatRoom); // 변경 사항을 저장
     }
 
     /**

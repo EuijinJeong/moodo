@@ -1,147 +1,98 @@
-# Getting Started with Create React App
+# Chat Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 프로젝트 개요
 
-## Available Scripts
+이 프로젝트는 사용자 간의 실시간 채팅을 제공하는 웹 애플리케이션입니다. React와 Spring Boot를 사용하여 프론트엔드와 백엔드를 구성하였으며, REST API와 WebSocket을 통해 실시간 채팅 기능을 구현하였습니다.
 
-In the project directory, you can run:
+## 주요 기능
 
-### `npm start`
+- 사용자 인증 및 권한 부여
+- 새로운 채팅방 생성 및 기존 채팅방으로 이동
+- 실시간 메시지 전송 및 수신
+- 메시지 기록 관리
+- 채팅방 목록 관리
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 기술 스택
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **프론트엔드**: React, Axios
+- **백엔드**: Spring Boot, Spring Data JPA, Spring Security, WebSocket
+- **데이터베이스**: MySQL
+- **빌드 도구**: Maven
+- **기타 도구**: Lombok, JWT, Hibernate
 
-### `npm test`
+## 설치 및 실행 방법
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 1. 백엔드 설정
 
-### `npm run build`
+1. GitHub에서 프로젝트를 클론합니다.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    ```bash
+    git clone https://github.com/yourusername/chat-application.git
+    cd chat-application/backend
+    ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. `application.yml` 또는 `application.properties` 파일에서 데이터베이스 설정을 구성합니다.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Maven을 사용하여 프로젝트를 빌드합니다.
 
-### `npm run eject`
+    ```bash
+    mvn clean install
+    ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+4. Spring Boot 애플리케이션을 실행합니다.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    ```bash
+    mvn spring-boot:run
+    ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 2. 프론트엔드 설정
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. 프론트엔드 폴더로 이동합니다.
 
-## Learn More
+    ```bash
+    cd ../frontend
+    ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+2. 필요한 패키지를 설치합니다.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+    ```bash
+    npm install
+    ```
 
-### Code Splitting
+3. React 애플리케이션을 개발 모드로 실행합니다.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+    ```bash
+    npm start
+    ```
 
-### Analyzing the Bundle Size
+4. 웹 브라우저에서 `http://localhost:3000`에 접속하여 애플리케이션을 확인할 수 있습니다.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 사용법
 
-### Making a Progressive Web App
+### 사용자 인증
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- 애플리케이션에 접근하려면 먼저 사용자는 로그인을 해야 합니다.
+- 로그인한 사용자는 JWT 토큰을 통해 인증 및 권한 부여가 이루어집니다.
 
-### Advanced Configuration
+### 채팅방
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- "모두톡" 버튼을 클릭하여 새로운 채팅방을 생성하거나 기존 채팅방으로 이동할 수 있습니다.
+- 채팅방 내에서 메시지를 전송하고, 이전 메시지 기록을 확인할 수 있습니다.
 
-### Deployment
+### 실시간 메시징
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- WebSocket을 통해 실시간으로 메시지를 주고받을 수 있습니다.
+- 메시지가 전송되면, 해당 채팅방에 자동으로 업데이트됩니다.
 
-### `npm run build` fails to minify
+## 프로젝트 구조
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-
-
----
-
-# Create React App 시작하기
-
-이 프로젝트는 [Create React App](https://github.com/facebook/create-react-app)으로 부트스트랩 되었습니다.
-
-## 사용 가능한 스크립트
-
-프로젝트 디렉터리에서 다음 명령어를 실행할 수 있습니다:
-
-### `npm start`
-
-개발 모드에서 앱을 실행합니다.  
-[http://localhost:3000](http://localhost:3000)에서 브라우저로 확인할 수 있습니다.
-
-코드를 수정하면 페이지가 자동으로 새로고침됩니다.  
-또한, 콘솔에 린트 오류가 표시될 수 있습니다.
-
-### `npm test`
-
-테스트 러너를 인터랙티브 감시 모드로 실행합니다.  
-테스트 실행에 대한 자세한 내용은 [테스트 실행](https://facebook.github.io/create-react-app/docs/running-tests) 섹션을 참고하세요.
-
-### `npm run build`
-
-프로덕션용으로 앱을 `build` 폴더에 빌드합니다.  
-프로덕션 모드에서 React를 올바르게 번들링하고 최적화된 빌드를 생성합니다.
-
-빌드는 압축되며 파일명에는 해시가 포함됩니다.  
-앱을 배포할 준비가 완료되었습니다!
-
-배포에 대한 자세한 내용은 [배포](https://facebook.github.io/create-react-app/docs/deployment) 섹션을 참고하세요.
-
-### `npm run eject`
-
-**참고: 이 명령은 한 번 실행하면 되돌릴 수 없습니다!**
-
-빌드 도구와 설정 선택에 만족하지 않는 경우 언제든지 `eject`를 실행할 수 있습니다. 이 명령을 실행하면 프로젝트에서 단일 빌드 종속성이 제거됩니다.
-
-대신 모든 구성 파일과 트랜스티브 종속성(webpack, Babel, ESLint 등)이 프로젝트에 복사되므로 모든 것을 직접 제어할 수 있습니다. `eject`를 제외한 모든 명령은 여전히 작동하지만, 이제 복사된 스크립트를 사용하게 되므로 이를 자유롭게 수정할 수 있습니다. 이 시점부터는 사용자가 직접 모든 것을 관리해야 합니다.
-
-`eject`를 반드시 사용해야 하는 것은 아닙니다. 이 도구는 작은 규모에서 중간 규모의 배포에 적합하며, 이 기능을 사용하지 않아도 됩니다. 하지만 사용자가 필요할 때 커스터마이징할 수 있도록 이 도구를 제공하는 것입니다.
-
-## 더 알아보기
-
-[Create React App 문서](https://facebook.github.io/create-react-app/docs/getting-started)에서 더 많은 내용을 확인할 수 있습니다.
-
-React를 배우려면, [React 문서](https://reactjs.org/)를 확인하세요.
-
-### 코드 분할
-
-이 섹션은 여기로 이동되었습니다: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### 번들 크기 분석
-
-이 섹션은 여기로 이동되었습니다: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### 프로그레시브 웹 앱 만들기
-
-이 섹션은 여기로 이동되었습니다: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### 고급 설정
-
-이 섹션은 여기로 이동되었습니다: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### 배포
-
-이 섹션은 여기로 이동되었습니다: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build`가 압축에 실패할 때
-
-이 섹션은 여기로 이동되었습니다: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
---- 
+```plaintext
+chat-application/
+├── backend/
+│   ├── src/main/java/com/example/modoo/      # Java 소스코드
+│   ├── src/main/resources/                   # 리소스 파일 (application.yml 등)
+│   └── pom.xml                               # Maven 설정 파일
+└── frontend/
+    ├── public/                               # 정적 파일
+    ├── src/                                  # React 소스코드
+    └── package.json                          # npm 설정 파일

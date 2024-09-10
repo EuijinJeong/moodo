@@ -8,9 +8,6 @@ import java.util.Optional;
 
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
     Optional<ChatRoom> findBySenderIdAndReceiverId(Long senderId, Long receiverId);
-
-    // TODO: 로그인한 사용자의 정보만으로 그에 따른 채팅방 리스트를 데이터베이스에서 가져오게 하는 메소드 만들어야 함
-
     /**
      *
      * @param senderId: 현재 로그인한 사용자 (구매자, 메세지를 보내는 사람)

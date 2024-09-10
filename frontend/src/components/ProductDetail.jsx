@@ -114,7 +114,6 @@ const ProductDetail = ({ productId }) => {
      *
      * @returns {Promise<void>}
      */
-    // FIXME: 이거 논리적인 오류 있는 듯
     const handleMessageMove = async ()=> {
         const storeId = storeInfo.id;
         try {
@@ -131,13 +130,17 @@ const ProductDetail = ({ productId }) => {
             // chatRoomId는 클라이언트가 이동해야 할 채팅방의 ID이고, messages는 해당 채팅방의 기존 메시지
             const { chatRoomId, messages } = response.data;
 
-            // FIXME: 이거 navigate 하는거 수정해야할 수도 있음.
             navigate(`/chat-room/${storeId}`);
 
         } catch (error) {
             console.error('Error navigating to chatroom:', error);
         }
     };
+
+    const handleBuyNow = () => {
+        // 결제페이지로 전송할 상품의 정보를 전달한다.
+
+    }
 
     return (
         <div>
@@ -157,7 +160,7 @@ const ProductDetail = ({ productId }) => {
                             찜 {product.likedCount}
                         </button>
                         <button className="product-detail__chat" onClick={handleMessageMove}>모두톡</button>
-                        <button className="product-detail__buy">바로구매</button>
+                        <button className="product-detail__buy" onClick={handleBuyNow}>바로구매</button>
                     </div>
                 </div>
             </div>

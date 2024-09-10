@@ -10,6 +10,7 @@ import UserStorePage from "./pages/UserStorePage";
 import RequireAuth from './components/RequireAuth';
 import SearchResultPage from "./pages/SearchResultPage";
 import ChatRoomPage from "./pages/ChatRoomPage";
+import CheckOutPage from "./pages/CheckOutPage";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
               <Route path="/store/:storeId" element={<RequireAuth><UserStorePage /></RequireAuth>} />
               <Route path="/search" element={<RequireAuth><SearchResultPage /></RequireAuth>} />
               <Route path="/chat-room/:storeId/:roomId?" element={<RequireAuth><ChatRoomPage /></RequireAuth>} />
+              <Route path="/" element={<RequireAuth><CheckOutPage /></RequireAuth>} />
           </Routes>
       </Router>
   );

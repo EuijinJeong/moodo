@@ -19,12 +19,14 @@ configurations {
 
 repositories {
 	mavenCentral()
+//    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+//    implementation 'org.springframework.boot:spring-boot-starter-json'
 
     // lombok
     compileOnly 'org.projectlombok:lombok'
@@ -62,6 +64,14 @@ dependencies {
 //    implementation 'org.springdoc:springdoc-openapi-data-rest:1.6.15'
 //    implementation 'org.springdoc:springdoc-openapi-security:1.6.15'
 //    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:1.6.15'
+
+//    // Iamport
+//    implementation 'com.github.iamport:iamport-rest-client-java:0.2.21'
+//    // JSON 처리용 Jackson 라이브러리 추가 (이미 있을 수 있음)
+//    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
+//    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.15.4'
+//    implementation 'com.fasterxml.jackson.core:jackson-core:2.13.3'
+
 }
 
 

@@ -150,9 +150,10 @@ public class ChatService {
 
         chatMessageRepository.save(chatMessage);
 
-        // ChatRoom의 last_message와 last_message_time 업데이트
-        chatRoom.setLastMessage(chatMessageDto.getMessageContent());
-        chatRoom.setLastMessageTime(LocalDateTime.now());
+        // FIXME: 이거 마저 코드 작성해야함!
+//        // ChatRoom의 last_message와 last_message_time 업데이트
+//        chatRoom.setLastMessage(chatMessageDto.getMessageContent());
+//        chatRoom.setLastMessageTime(LocalDateTime.now
 
         chatRoomRepository.save(chatRoom); // 변경 사항을 저장
     }
@@ -179,7 +180,6 @@ public class ChatService {
         return dto;
     }
 
-    // FIXME: 이거 완료해서 작성해야함.
     public ChatMessageDto convertToDto(ChatMessage message) {
         ChatMessageDto dto = new ChatMessageDto();
         dto.setId(message.getId());

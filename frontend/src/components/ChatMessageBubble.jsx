@@ -7,7 +7,6 @@ const ChatMessageBubble = ({ message}) => {
         console.log('Messages state:', message);
     }, [message]);
 
-    // FIXME: message 데이터가 랜더링이 안된다.
     console.log('Rendering message:', message); // 추가
 
     return (

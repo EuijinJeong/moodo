@@ -14,6 +14,24 @@ public class AddressController {
     @Autowired
     private AddressService addressService;
 
+
+    /**
+     * 사용자의 기본 주소 정보를 가져오는 메소드
+     *
+     * @param memberId
+     * @return 기본 주소
+     */
+    @GetMapping("/members/{memberId}/addresses/default")
+    public ResponseEntity<MemberAddress> getDefaultMemberAddress(@PathVariable Long memberId) {
+        MemberAddress defaultAddress = addressService.getDefaultMemberAddress(memberId);
+
+        if (defaultAddress != null) {
+            return ResponseEntity.ok(defaultAddress);
+        } else {
+            return ResponseEntity.notFound().build(); // 기본 주소가 없을 경우 404 처리
+        }
+    }
+
     /**
      * 사용자의 주소 정보를 저장하는 역할을 컨트롤하는 컨트롤 메소드
      *

@@ -18,6 +18,16 @@ public class AddressService {
     private MemberRepository memberRepository;
 
     /**
+     * 사용자의 기본 주소를 조회하는 메소드
+     * @param memberId
+     * @return 사용자의 기본 주소
+     */
+    public MemberAddress getDefaultMemberAddress(Long memberId) {
+        return memberAddressRepository.findByMemberIdAndIsDefault(memberId, true);
+    }
+
+
+    /**
      * 배송지 정보를 저장하는 메소드
      *
      * @param memberId

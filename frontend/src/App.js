@@ -26,7 +26,7 @@ function App() {
               <Route path="/store/:storeId" element={<RequireAuth><UserStorePage /></RequireAuth>} />
               <Route path="/search" element={<RequireAuth><SearchResultPage /></RequireAuth>} />
               <Route path="/chat-room/:storeId/:roomId?" element={<RequireAuth><ChatRoomPage /></RequireAuth>} />
-              <Route path="/" element={<RequireAuth><CheckOutPage /></RequireAuth>} />
+              <Route path="/checkout" element={<RequireAuth><CheckOutPage /></RequireAuth>} />
           </Routes>
       </Router>
   );

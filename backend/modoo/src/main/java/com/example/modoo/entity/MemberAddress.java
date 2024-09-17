@@ -30,6 +30,10 @@ public class MemberAddress {
     @Column(name = "postal_code", nullable = false)
     private String postalCode;
 
+    // 기본 주소 여부를 나타내는 필드
+    @Column(name = "isDeafult_address")
+    private boolean isDefault;
+
     @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;

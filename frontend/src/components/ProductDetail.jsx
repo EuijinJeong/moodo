@@ -138,8 +138,8 @@ const ProductDetail = ({ productId }) => {
     };
 
     const handleBuyNow = () => {
-        // 결제페이지로 전송할 상품의 정보를 전달한다.
-
+        console.log('보낼 상품 정보 확인:', product); // 상품 정보 확인
+        navigate('/checkout', { state: { product } }); // 상품 정보 넘기기
     }
 
     return (

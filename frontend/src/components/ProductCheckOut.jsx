@@ -245,7 +245,7 @@ const ProductCheckOut = () => {
                         readOnly
                     />
 
-                    <button type="button">주소 검색</button>
+                    <button type="button" onClick={handlePostcodeSearch}>주소 검색</button>
                 </form>
             </div>
 

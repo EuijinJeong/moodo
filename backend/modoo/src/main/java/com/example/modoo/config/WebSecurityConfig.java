@@ -24,7 +24,7 @@ public class WebSecurityConfig {
 
     private final TokenProvider tokenProvider;
     private final CustomAccessDeniedHandler accessDeniedHandler;
-    private final CustomLoginSuccessHandler loginSuccessHandler;
+//    private final CustomLoginSuccessHandler loginSuccessHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -37,6 +37,8 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/signIn").permitAll()
                         .requestMatchers("/api/user/**").permitAll()
                         .requestMatchers("static/images/**").permitAll()
+                        .requestMatchers("/api/password/reset-link").permitAll()  // 인증 없이 접근 가능
+                        .requestMatchers("/api/password/reset").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(e -> e
@@ -68,4 +70,5 @@ public class WebSecurityConfig {
                                 PathRequest.toStaticResources().atCommonLocations()
                         );
     }
+
 }

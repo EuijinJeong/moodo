@@ -23,6 +23,10 @@ public class MemberService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    // 이메일 중복 확인 메서드
+    public boolean isEmailDuplicate(String email) {
+        return memberRepository.existsByEmail(email); // 이메일 중복 여부 체크
+    }
 
     @Transactional
     public void saveMember(SignUpRequest signUpRequest) {

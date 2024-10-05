@@ -39,6 +39,7 @@ public class WebSecurityConfig {
                         .requestMatchers("static/images/**").permitAll()
                         .requestMatchers("/api/password/reset-link").permitAll()  // 인증 없이 접근 가능
                         .requestMatchers("/api/password/reset").permitAll()
+                        .requestMatchers("/api/check-email-duplicate").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(e -> e

@@ -82,6 +82,24 @@ const SignUp = () => {
     return true;
   };
 
+  const handleCheckEmailDuplicate = async () => {
+    try {
+      // 이메일 중복 여부를 확인하는 API 요청
+      const response = await axiosInstance.get(
+        `/check-email-duplicate?email=${email}`
+      );
+
+      if (response.data.isDuplicate) {
+        alert("이미 사용 중인 이메일입니다.");
+      } else {
+        alert("사용 가능한 이메일입니다.");
+      }
+    } catch (error) {
+      console.error("이메일 중복 확인 중 오류 발생:", error);
+      alert("이메일 중복 확인 중 오류가 발생했습니다.");
+    }
+  };
+
   // 회원가입 폼 제출 이벤트 핸들러
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -136,6 +154,9 @@ const SignUp = () => {
               placeholder="이메일을 입력해주세요"
               required
             />
+            <button type="button" onClick={handleCheckEmailDuplicate}>
+              중복확인
+            </button>
           </div>
           <div className="form-group">
             <label htmlFor="fullName">이름:</label>

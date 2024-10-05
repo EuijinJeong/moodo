@@ -8,6 +8,7 @@ const UserDashboardHeader = () => {
     const [show, setShow] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const navigate = useNavigate();
+
     const toggleMenu = () => {
         setShow((prevShow) => !prevShow);
     };
@@ -32,6 +33,27 @@ const UserDashboardHeader = () => {
     const handleKeyPress = (event) => {
         if (event.key === 'Enter') {
             handleSearch();
+        }
+    };
+
+    const handleChatRoomClick = async () => {
+        try {
+            const token = localStorage.getItem('token');
+
+            // 서버로 채팅방 목록 요청 보내기
+            const response = await axios.get('/api/chat-room-lists', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            console.log('Chat rooms from server:', response.data);
+            const chatRooms = response.data;  // 서버에서 받은 채팅방 목록
+
+            // 채팅방 목록 페이지로 이동하고 상태로 채팅방 목록 넘기기
+            navigate('/ChatRoomPage', { state: { chatRooms } });
+        } catch (error) {
+            console.error('Error fetching chat rooms:', error);
         }
     };
 
@@ -75,7 +97,7 @@ const UserDashboardHeader = () => {
                   <ul>
                       <li><Link to="/ProductRegistrationPage">판매하기</Link></li>
                       <li><a href="/MyStorePage">내상점</a></li>
-                      <li><a href="/ChatRoomPage">모두톡</a></li>
+                      <li><a href="/ChatRoomPage" onClick={handleChatRoomClick}>모두톡</a></li>
                       <li><button onClick={handleLogout} className="logout-button">로그아웃</button></li>
                   </ul>
               </nav>

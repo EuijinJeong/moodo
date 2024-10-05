@@ -33,7 +33,7 @@ public class ProductService {
     private FileService fileService;
 
     /**
-     *
+     * 파일을 작성하는 비즈니스 로직을 수항하는 메서드.
      * @param productDto
      * @param files
      * @return

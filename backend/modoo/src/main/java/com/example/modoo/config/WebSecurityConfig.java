@@ -63,12 +63,14 @@ public class WebSecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         // 정적 리소스 spring security 대상에서 제외
-        return (web) ->
-                web
-                        .ignoring()
-                        .requestMatchers(
-                                PathRequest.toStaticResources().atCommonLocations()
-                        );
+        return (web) -> web
+                // 정적 리소스(Spring 기본 리소스 경로들)를 인증 대상에서 제외
+                .ignoring()
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+                // 별도로 /images/** 경로를 인증 대상에서 제외
+                .and()
+                .ignoring()
+                .requestMatchers("/images/**");
     }
 
 }

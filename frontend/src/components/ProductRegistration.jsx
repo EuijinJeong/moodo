@@ -41,22 +41,39 @@ const ProductRegistration = () => {
         setAcceptOffers(e.target.checked);
     };
 
-    const isValidInput = (title, condition, price, acceptOffers) => {
+    /**
+     * 유효성 검사 메서드
+     *
+     * @param title
+     * @param condition
+     * @param price
+     * @returns {boolean}
+     */
+    const isValidInput = (title, condition, price) => {
         // 각 필수 입력란이 비어있는지 확인
-        if(!title || !condition || !price || !acceptOffers){
+        if(!title || !condition || !price){
             alert("모든 필수값들을 입력해주세요.")
             return false;
         }
     }
 
+    /**
+     *
+     * @param e
+     * @returns {Promise<void>}
+     */
     const handleSubmit = async (e) => {
       e.preventDefault();
 
-      // 아래 유효성검사 수정 필요
-        // if(!(isValidInput(title, condition, price, acceptOffers))){
-        //     // 유효하지 않은 로직 처리
-        //     alert("필수 입력란이 비어있습니다 확인해주세요.")
-        // }
+      if(!(isValidInput(title, condition, price))){
+          // 유효하지 않은 로직 처리
+          alert("필수 입력란이 비어있습니다 확인해주세요.")
+      }
+
+      if (images.length === 0) {
+          alert("최소한 하나의 이미지를 업로드해야 합니다.");
+          return;
+      }
 
         const product = {
             title: title,

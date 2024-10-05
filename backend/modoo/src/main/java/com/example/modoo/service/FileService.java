@@ -37,17 +37,17 @@ public class FileService {
      */
     public List<String> saveFiles(List<MultipartFile> files){
         return files.stream()
-                .map(this::saveFile)
+                .map(this::saveOneFile)
                 .collect(Collectors.toList());
     }
 
     /**
-     * 단일 파일을 저장하고, 저장된 파일의 고유한 이름을 반환합니다.
+     * 단일 파일을 저장하고, 저장된 파일의 고유한 이름을 반환.
      *
      * @param file 저장할 MultipartFile
      * @return 저장된 파일의 고유한 이름
      */
-    private String saveFile(MultipartFile file) {
+    public String saveOneFile(MultipartFile file) {
         String fileName = file.getOriginalFilename();
         String uniqueFileName = generateUniqueFileName(fileName);
 
@@ -64,7 +64,7 @@ public class FileService {
     }
 
     /**
-     * 파일 이름이 고유하도록 타임스탬프를 추가하여 새로운 파일 이름을 생성합니다.
+     * 파일 이름이 고유하도록 타임스탬프를 추가하여 새로운 파일 이름을 생성.
      *
      * @param fileName 원래 파일 이름
      * @return 고유한 파일 이름

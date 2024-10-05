@@ -3,8 +3,12 @@ package com.example.modoo.controller;
 import com.example.modoo.dto.ProductDto;
 import com.example.modoo.repository.ProductRepository;
 import com.example.modoo.service.ProductService;
+import com.example.modoo.service.UserEmailLookupService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -73,6 +77,18 @@ public class ProductController {
     public ResponseEntity<List<ProductDto>> getRandomProducts(@RequestParam int count) {
         List<ProductDto> randomProducts = productService.getRandomProducts(count);
         return ResponseEntity.ok(randomProducts);
+    }
+
+    @DeleteMapping("products/delete/{productId}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long productId) {
+        UserEmailLookupService userEmailLookupService = new UserEmailLookupService();
+        try {
+            String userEmail = userEmailLookupService.getCurrentUserEmail();
+            productService.deleteProduct(productId, userEmail);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();  // 에러 시 500 반환
+        }
     }
 
 }

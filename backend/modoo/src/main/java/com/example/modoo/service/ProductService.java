@@ -141,6 +141,26 @@ public class ProductService {
         return randomProducts.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
+    /**
+     * 사용자가 상품을 삭제하는 비즈니스 로직을 처리하는 메서드.
+     *
+     * @param productId
+     * @param userEmail
+     */
+    public void deleteProduct(Long productId, String userEmail) {
+        // 상품 조회
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("해당 상품을 찾을 수 없습니다: " + productId));
+
+        // 삭제 권한 확인.
+        if(!product.getStore().getEmail().equals(userEmail)) {
+            throw new RuntimeException("삭제 권한이 없습니다.");
+        } else {
+            // 상품 삭제
+            productRepository.delete(product);
+        }
+    }
+
     // Product 엔티티를 ProductDto로 변환하는 메서드
     public ProductDto convertToDto(Product product) {
         ProductDto productDto = new ProductDto();

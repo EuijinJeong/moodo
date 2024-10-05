@@ -7,6 +7,7 @@ import "../css/product_detail.css";
 const ProductDetail = ({ productId }) => {
     const [product, setProduct] = useState(null);
     const [storeInfo, setStoreInfo] = useState(null);
+    const [isSeller, setIsSeller] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -39,6 +40,17 @@ const ProductDetail = ({ productId }) => {
 
                     setStoreInfo(storeResponse.data);
                     console.log(storeResponse.data);
+
+                    // 현재 사용자가 해당 상점의 판매자인지 확인
+                    const currentUserResponse = await axios.get(`/api/stores/current`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    });
+                    const currentUserStore = currentUserResponse.data;
+                    if (currentUserStore.id === storeId) {
+                        setIsSeller(true);  // 판매자임을 확인
+                    }
                 } else {
                     console.error('Store ID is not defined in the product data');
                 }
@@ -54,7 +66,36 @@ const ProductDetail = ({ productId }) => {
     }
 
     /**
-     *
+     * 상품 삭제 핸들러
+     * @returns {Promise<void>}
+     */
+    const handleDeleteProduct = async () => {
+
+        const confirmDelete = window.confirm("정말 이 상품을 삭제하시겠습니까?");
+
+        if (!confirmDelete) {
+            return; // 사용자가 취소를 선택하면 아무 동작도 하지 않음
+        }
+
+        try {
+            const token = localStorage.getItem('token');
+            await axios.delete(`/api/products/delete/${productId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            // 삭제 후 페이지 이동
+            alert("상품이 삭제되었습니다.");
+            navigate("/MyStorePage");  // 삭제 후 상점 페이지로 이동
+        } catch (error) {
+            console.error("상품 삭제 중 오류 발생:", error);
+            alert("상품 삭제 중 오류가 발생했습니다.");
+        }
+    };
+
+    /**
+     * 상점 이동 핸들러
      * @returns {Promise<void>}
      */
     const handleStoreMove = async () => {
@@ -161,6 +202,12 @@ const ProductDetail = ({ productId }) => {
                         </button>
                         <button className="product-detail__chat" onClick={handleMessageMove}>모두톡</button>
                         <button className="product-detail__buy" onClick={handleBuyNow}>바로구매</button>
+
+                        {isSeller && (
+                            <button className="product-detail__delete" onClick={handleDeleteProduct}>
+                                상품 삭제
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>
